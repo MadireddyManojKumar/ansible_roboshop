@@ -1,0 +1,8 @@
+#if we have 100's of variables, then we can maintain a separate variable file and we can refer that file in play book. This is a global variable file which can be used in any playbook.
+
+name: "Global variables"
+first_name: "Manoj"
+last_name: "Madireddy"
+location: "Dallas, Texas , USA"
+occupation: "SRE Engineer"
+years_of_experience: 9

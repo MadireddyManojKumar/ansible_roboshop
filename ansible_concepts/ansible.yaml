@@ -1,6 +1,9 @@
-- first_name: ping demo
-  hosts: localhost #target ansible localhost
+- name: ping demo
+  hosts: localhost
   connection: local
-  -tasks:
+  tasks: 
+    - name: debug demo
+      ansible.builtin.debug:
+        msg: "Hello Ansible"
     - name: ping demo
       ansible.builtin.ping:

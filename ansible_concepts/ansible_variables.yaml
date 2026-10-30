@@ -1,0 +1,85 @@
+#this is ansible play-book
+
+- name: "Ansible variables"
+  hosts: localhost
+  connection: local
+  vars: #playbook level variables - these variables will bbe available for all taska
+    my_var: "Hello, Ansible!"
+    first_name: "Manoj"
+    last_name: "Madireddy"
+
+  #To load variables from a file, we can use vars_files. We can maintain a separate variable file and we can refer that file in play book. This is a global variable file which can be used in any playbook.  
+  vars_files:
+    - global_variables.yaml
+
+#if we want to take prompts from users dynamically, we can use vars_prompt. This is a playbook level variable and will be available for all tasks in the playbook.
+  vars_prompt:
+    - name: "user_name"
+      prompt: "What is your name?"  # ansible will read this name from prompt and keep in variable user_name. and it can be used anywhere in playbook.
+      private: false
+
+    - name: "user_location" #value entered dynamically by user will be stored in this variable.
+      prompt: "Where do you live?" #this prompt will be displayed on the screen and user can enter the value for this variable. The value entered by user will be stored in the variable user_location.
+      private: false #when private is set to false, the value entered by user will be displayed on the screen. If private is set to true, the value entered by user will not be displayed on the screen. It will be hidden for security reasons.
+
+    - name: "user_occupation"
+      prompt: "What is your occupation?"
+      private: true #when user enters the value, it will not be displayed on the screen. It will be hidden for security reasons.
+
+    - name: "user_experience"
+      prompt: "How many years of experience do you have?"
+      private: false
+
+
+  tasks:
+    - name: "playbool level variables"
+      ansible.builtin.debug:
+        msg: 
+          -"{{ my_var }} My name is {{ first_name }} {{ last_name }}" #ansible will see double flower braces and understand we're referring to a variable and will replace it with the value of the variable.   
+   
+    - name: "task level variables"
+      vars: #task level variables - these variables will be available only for this task
+        first_name: "Rajesh"
+        middle_name: "kumar"
+        location: "Dallas, Texas , USA"
+      ansible.builtin.debug:
+        msg:
+          -"{{ my_var }} My name is {{ first_name }} {{ middle_name }} and i live in. {{ location }}"  #When task level variable is ther, it gets preference over playbook level variable. So, first_name will be Rajesh instead of Manoj.
+
+
+    #If there are multiple variables with same name, ansible will give preference to task level variable over playbook level variable.
+    #If there are 100's of variables, then we can maintain a separate variable file and we can refer that file in play book.
+ 
+    - name: "global variables from variable file"
+      ansible.builtin.debug:
+        msg:
+          -"{{ my_var }} My name is {{ first_name }} {{ last_name }} and i live in. {{ location }}. I am a {{ occupation }} with {{ years_of_experience }} years of experience."  #since occupation and years_of_experience are not defined in playbook or task level, ansible will look for them in variable file and will replace with the value of the variable.
+
+    - name: "Taking variables dynamically form command line using Var prompt"
+      ansible.builtin.debug:
+        msg:
+          -" Whats your name? {{user_name}} and What is your occupation? {{user_occupation}}"
+
+
+#-------------------------------------------------------
+#Different ways of declaring variables in ansible file
+#-------------------------------------------------------
+
+# Playbook level Variables
+# Task level variables
+# Maintaining separate file for variables
+# collecting variables from prompt
+# Variables in inventory.ini file. -- Define variables in inventory.ini file, by default ansible will load that variables
+# varialles from command line while executing play book. -- Let say are expecting a variable which was not declared anywhere, and that can be passses from command line while running play boo
+  #Variables from command line can ve provided with -e "app_version=v2.0"
+  #we now 2.0 will be passed as variable in play book when ever there is app_version.   
+
+
+
+#-------------------------------------------------------
+# If same variable is declared in Different places like cmd, prompt, playbook, task level, variable file, inventory.ini , then which will get preference ?
+#-------------------------------------------------------
+
+#variable preference level
+# cmd level --> task level --> variable file --> prompt level --> playbook level --> inventory.ini
+#if variable value is not declared anywhere then it will throw exception - variable undefined
