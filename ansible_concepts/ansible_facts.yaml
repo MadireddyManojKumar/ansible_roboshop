@@ -1,0 +1,888 @@
+{
+    "msg": {
+        "all_ipv4_addresses": [
+            "192.168.1.170"
+        ],
+        "all_ipv6_addresses": [
+            "fe80::34cf:7c53:ef10:cf45%utun0",
+            "fe80::4ec:cc86:2de5:1e1f%en0",
+            "2603:8080:aaf0:41c0:4c3:45eb:745b:a180",
+            "2603:8080:aaf0:41c0:616c:bb38:a650:9ba0",
+            "2603:8080:aaf0:41c0::17d0",
+            "fe80::cd6:72ff:fee9:c732%awdl0",
+            "fe80::cd6:72ff:fee9:c732%llw0",
+            "fe80::6302:5f0d:fc68:2028%utun1",
+            "fe80::ce81:b1c:bd2c:69e%utun2",
+            "fe80::d4b4:bb84:d414:9974%utun3",
+            "fe80::bb5:1472:ecdf:8106%utun4",
+            "fe80::7db1:531e:9870:5492%utun5",
+            "fe80::5e1a:4829:cefb:a99f%utun6",
+            "fe80::243:8847:4f9d:30cc%utun7"
+        ],
+        "anpi0": {
+            "device": "anpi0",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "a6:86:e3:d2:d2:dd",
+            "media": "Unknown",
+            "media_select": "none",
+            "mtu": "1500",
+            "options": [
+                "CHANNEL_IO"
+            ],
+            "status": "inactive",
+            "type": "ether"
+        },
+        "anpi1": {
+            "device": "anpi1",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "a6:86:e3:d2:d2:de",
+            "media": "Unknown",
+            "media_select": "none",
+            "mtu": "1500",
+            "options": [
+                "CHANNEL_IO"
+            ],
+            "status": "inactive",
+            "type": "ether"
+        },
+        "anpi3": {
+            "device": "anpi3",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "a6:86:e3:d2:d2:e0",
+            "media": "Unknown",
+            "media_select": "none",
+            "mtu": "1500",
+            "options": [
+                "CHANNEL_IO"
+            ],
+            "status": "inactive",
+            "type": "ether"
+        },
+        "ansible_local": {},
+        "ap1": {
+            "device": "ap1",
+            "flags": [
+                "BROADCAST",
+                "SMART",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "d2:1a:c2:37:4e:e6",
+            "media": "Unknown",
+            "media_select": "autoselect",
+            "media_type": "none",
+            "mtu": "1500",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "type": "ether"
+        },
+        "apparmor": {
+            "status": "disabled"
+        },
+        "architecture": "arm64",
+        "awdl0": {
+            "device": "awdl0",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [
+                {
+                    "address": "fe80::cd6:72ff:fee9:c732%awdl0",
+                    "prefix": "64",
+                    "scope": "0x11"
+                }
+            ],
+            "macaddress": "0e:d6:72:e9:c7:32",
+            "media": "Unknown",
+            "media_select": "autoselect",
+            "mtu": "1500",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "status": "active",
+            "type": "ether"
+        },
+        "bridge0": {
+            "device": "bridge0",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "36:3b:bb:a9:a7:00",
+            "media": "Unknown",
+            "media_select": "Unknown",
+            "media_type": "unknown type",
+            "mtu": "1500",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "status": "inactive",
+            "type": "ether"
+        },
+        "date_time": {
+            "date": "2026-11-01",
+            "day": "01",
+            "epoch": "1793544870",
+            "epoch_int": "1793544870",
+            "hour": "08",
+            "iso8601": "2026-11-01T14:54:30Z",
+            "iso8601_basic": "20261101T085430831582",
+            "iso8601_basic_short": "20261101T085430",
+            "iso8601_micro": "2026-11-01T14:54:30.831582Z",
+            "minute": "54",
+            "month": "11",
+            "second": "30",
+            "time": "08:54:30",
+            "tz": "CST",
+            "tz_dst": "CDT",
+            "tz_offset": "-0600",
+            "weekday": "Sunday",
+            "weekday_number": "0",
+            "weeknumber": "43",
+            "year": "2026"
+        },
+        "default_ipv4": {
+            "address": "192.168.1.170",
+            "broadcast": "192.168.1.255",
+            "device": "en0",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "gateway": "192.168.1.1",
+            "interface": "en0",
+            "macaddress": "80:d1:ce:00:89:95",
+            "media": "Unknown",
+            "media_select": "autoselect",
+            "mtu": "1500",
+            "netmask": "255.255.255.0",
+            "network": "192.168.1.0",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "status": "active",
+            "type": "ether"
+        },
+        "default_ipv6": {
+            "address": "fe80::4ec:cc86:2de5:1e1f%en0",
+            "device": "en0",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "gateway": "fe80::f27b:65ff:feed:8bd3%en0",
+            "interface": "en0",
+            "macaddress": "80:d1:ce:00:89:95",
+            "media": "Unknown",
+            "media_select": "autoselect",
+            "mtu": "1500",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "prefix": "64",
+            "status": "active",
+            "type": "ether"
+        },
+        "discovered_interpreter_python": "/usr/bin/python3",
+        "distribution": "MacOSX",
+        "distribution_major_version": "26",
+        "distribution_release": "25.6.0",
+        "distribution_version": "26.6.2",
+        "dns": {
+            "nameservers": [
+                "2603:8080:aaf0:41c0::1",
+                "192.168.1.1"
+            ],
+            "search": [
+                "lan"
+            ]
+        },
+        "domain": "lan",
+        "effective_group_id": 20,
+        "effective_user_id": 501,
+        "en0": {
+            "device": "en0",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [
+                {
+                    "address": "192.168.1.170",
+                    "broadcast": "192.168.1.255",
+                    "netmask": "255.255.255.0",
+                    "network": "192.168.1.0"
+                }
+            ],
+            "ipv6": [
+                {
+                    "address": "fe80::4ec:cc86:2de5:1e1f%en0",
+                    "prefix": "64"
+                },
+                {
+                    "address": "2603:8080:aaf0:41c0:4c3:45eb:745b:a180",
+                    "prefix": "64"
+                },
+                {
+                    "address": "2603:8080:aaf0:41c0:616c:bb38:a650:9ba0",
+                    "prefix": "64"
+                },
+                {
+                    "address": "2603:8080:aaf0:41c0::17d0",
+                    "prefix": "64"
+                }
+            ],
+            "macaddress": "80:d1:ce:00:89:95",
+            "media": "Unknown",
+            "media_select": "autoselect",
+            "mtu": "1500",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "status": "active",
+            "type": "ether"
+        },
+        "en1": {
+            "device": "en1",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "PROMISC",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "36:3b:bb:a9:a7:00",
+            "media": "Unknown",
+            "media_select": "autoselect",
+            "media_type": "full-duplex",
+            "mtu": "1500",
+            "options": [
+                "TSO4",
+                "TSO6",
+                "CHANNEL_IO"
+            ],
+            "status": "inactive",
+            "type": "ether"
+        },
+        "en2": {
+            "device": "en2",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "PROMISC",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "36:3b:bb:a9:a7:04",
+            "media": "Unknown",
+            "media_select": "autoselect",
+            "media_type": "full-duplex",
+            "mtu": "1500",
+            "options": [
+                "TSO4",
+                "TSO6",
+                "CHANNEL_IO"
+            ],
+            "status": "inactive",
+            "type": "ether"
+        },
+        "en3": {
+            "device": "en3",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "PROMISC",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "36:3b:bb:a9:a7:0c",
+            "media": "Unknown",
+            "media_select": "autoselect",
+            "media_type": "full-duplex",
+            "mtu": "1500",
+            "options": [
+                "TSO4",
+                "TSO6",
+                "CHANNEL_IO"
+            ],
+            "status": "inactive",
+            "type": "ether"
+        },
+        "en4": {
+            "device": "en4",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "a6:86:e3:d2:d2:bd",
+            "media": "Unknown",
+            "media_select": "none",
+            "mtu": "1500",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "status": "inactive",
+            "type": "ether"
+        },
+        "en5": {
+            "device": "en5",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "a6:86:e3:d2:d2:be",
+            "media": "Unknown",
+            "media_select": "none",
+            "mtu": "1500",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "status": "inactive",
+            "type": "ether"
+        },
+        "en6": {
+            "device": "en6",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "a6:86:e3:d2:d2:c0",
+            "media": "Unknown",
+            "media_select": "none",
+            "mtu": "1500",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "status": "inactive",
+            "type": "ether"
+        },
+        "en8": {
+            "device": "en8",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "84:5c:31:60:5a:e9",
+            "media": "Unknown",
+            "media_select": "autoselect",
+            "media_type": "none",
+            "mtu": "1500",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "status": "inactive",
+            "type": "ether"
+        },
+        "env": {
+            "COLORTERM": "truecolor",
+            "CPATH": "/usr/local/include",
+            "FPATH": "/opt/homebrew/share/zsh/site-functions:/usr/local/share/zsh/site-functions:/usr/share/zsh/site-functions:/usr/share/zsh/5.9/functions",
+            "HOME": "/Users/manojkumarmadireddy",
+            "HOMEBREW_CELLAR": "/opt/homebrew/Cellar",
+            "HOMEBREW_PREFIX": "/opt/homebrew",
+            "HOMEBREW_REPOSITORY": "/opt/homebrew",
+            "INFOPATH": "/opt/homebrew/share/info:",
+            "LANG": "en_US.UTF-8",
+            "LIBRARY_PATH": "/usr/local/lib",
+            "LOGNAME": "manojkumarmadireddy",
+            "MANPATH": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/share/man:/Library/Developer/CommandLineTools/usr/share/man:/Library/Developer/CommandLineTools/Toolchains/XcodeDefault.xctoolchain/usr/share/man:",
+            "OSLogRateLimit": "64",
+            "PATH": "/Users/manojkumarmadireddy/Tools/apache-maven-3.9.6/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/opt/homebrew/bin",
+            "PWD": "/Users/manojkumarmadireddy/DevSecOps_Repo/ansible/ansible_roboshop/ansible_concepts",
+            "SDKROOT": "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk",
+            "SHELL": "/bin/zsh",
+            "SHLVL": "3",
+            "SSH_AUTH_SOCK": "/var/run/com.apple.launchd.vNW1wDz8Z8/Listeners",
+            "TERM": "xterm-256color",
+            "TERM_PROGRAM": "Apple_Terminal",
+            "TERM_PROGRAM_VERSION": "470.2",
+            "TERM_SESSION_ID": "8413FEA7-C057-4065-A8C0-6DC6087C2603",
+            "TMPDIR": "/var/folders/jt/0z4f8gsd3277w5yj2cdbkqp40000gn/T/",
+            "USER": "manojkumarmadireddy",
+            "XPC_FLAGS": "0x0",
+            "XPC_SERVICE_NAME": "0",
+            "_": "/usr/bin/python3",
+            "__CFBundleIdentifier": "com.apple.Terminal",
+            "__CF_USER_TEXT_ENCODING": "0x1F5:0x0:0x0"
+        },
+        "fibre_channel_wwn": [],
+        "fips": false,
+        "fqdn": "manojs-mbp.lan",
+        "gather_subset": [
+            "all"
+        ],
+        "gif0": {
+            "device": "gif0",
+            "flags": [
+                "POINTOPOINT",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "unknown",
+            "mtu": "1280",
+            "type": "unknown"
+        },
+        "hostname": "Manojs-MBP",
+        "hostnqn": "",
+        "interfaces": [
+            "anpi0",
+            "anpi1",
+            "anpi3",
+            "ap1",
+            "awdl0",
+            "bridge0",
+            "en0",
+            "en1",
+            "en2",
+            "en3",
+            "en4",
+            "en5",
+            "en6",
+            "en8",
+            "gif0",
+            "llw0",
+            "lo0",
+            "stf0",
+            "utun0",
+            "utun1",
+            "utun2",
+            "utun3",
+            "utun4",
+            "utun5",
+            "utun6",
+            "utun7"
+        ],
+        "is_chroot": false,
+        "iscsi_iqn": "",
+        "kernel": "25.6.0",
+        "kernel_version": "Darwin Kernel Version 25.6.0: Fri Jul 31 19:16:20 PDT 2026; root:xnu-12377.161.14~5/RELEASE_ARM64_T8142",
+        "llw0": {
+            "device": "llw0",
+            "flags": [
+                "UP",
+                "BROADCAST",
+                "SMART",
+                "RUNNING",
+                "SIMPLEX",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [
+                {
+                    "address": "fe80::cd6:72ff:fee9:c732%llw0",
+                    "prefix": "64",
+                    "scope": "0x12"
+                }
+            ],
+            "macaddress": "0e:d6:72:e9:c7:32",
+            "media": "Unknown",
+            "media_select": "autoselect",
+            "media_type": "none",
+            "mtu": "1500",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "type": "ether"
+        },
+        "lo0": {
+            "device": "lo0",
+            "flags": [
+                "UP",
+                "LOOPBACK",
+                "RUNNING",
+                "MULTICAST"
+            ],
+            "ipv4": [
+                {
+                    "address": "127.0.0.1",
+                    "broadcast": "127.255.255.255",
+                    "netmask": "255.0.0.0",
+                    "network": "127.0.0.0"
+                }
+            ],
+            "ipv6": [
+                {
+                    "address": "::1",
+                    "prefix": "128"
+                },
+                {
+                    "address": "fe80::1%lo0",
+                    "prefix": "64",
+                    "scope": "0x1"
+                }
+            ],
+            "macaddress": "unknown",
+            "mtu": "16384",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "type": "loopback"
+        },
+        "loadavg": {
+            "15m": 2.16455078125,
+            "1m": 1.2607421875,
+            "5m": 1.61181640625
+        },
+        "lsb": {},
+        "machine": "arm64",
+        "memfree_mb": 3706,
+        "memtotal_mb": 16384,
+        "model": "Mac17,2",
+        "module_setup": true,
+        "nodename": "Manojs-MBP.lan",
+        "os_family": "Darwin",
+        "osrevision": "199506",
+        "osversion": "25G83",
+        "pkg_mgr": "homebrew",
+        "processor": "Apple M5",
+        "processor_cores": "10",
+        "processor_vcpus": "10",
+        "product_name": "Mac17,2",
+        "python": {
+            "executable": "/Library/Developer/CommandLineTools/usr/bin/python3",
+            "has_sslcontext": true,
+            "type": "cpython",
+            "version": {
+                "major": 3,
+                "micro": 6,
+                "minor": 9,
+                "releaselevel": "final",
+                "serial": 0
+            },
+            "version_info": [
+                3,
+                9,
+                6,
+                "final",
+                0
+            ]
+        },
+        "python_version": "3.9.6",
+        "real_group_id": 20,
+        "real_user_id": 501,
+        "selinux": {
+            "status": "Missing selinux Python library"
+        },
+        "selinux_python_present": false,
+        "service_mgr": "launchd",
+        "stf0": {
+            "device": "stf0",
+            "flags": [],
+            "ipv4": [],
+            "ipv6": [],
+            "macaddress": "unknown",
+            "mtu": "1280",
+            "type": "unknown"
+        },
+        "system": "Darwin",
+        "system_capabilities": "N/A",
+        "system_capabilities_enforced": "N/A",
+        "uptime_seconds": 703655,
+        "user_dir": "/Users/manojkumarmadireddy",
+        "user_gecos": "Manoj kumar Madireddy",
+        "user_gid": 20,
+        "user_id": "manojkumarmadireddy",
+        "user_shell": "/bin/zsh",
+        "user_uid": 501,
+        "userspace_bits": "64",
+        "utun0": {
+            "device": "utun0",
+            "flags": [
+                "UP",
+                "POINTOPOINT",
+                "RUNNING",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [
+                {
+                    "address": "fe80::34cf:7c53:ef10:cf45%utun0",
+                    "prefix": "64",
+                    "scope": "0x13"
+                }
+            ],
+            "macaddress": "unknown",
+            "mtu": "1380",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "type": "unknown"
+        },
+        "utun1": {
+            "device": "utun1",
+            "flags": [
+                "UP",
+                "POINTOPOINT",
+                "RUNNING",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [
+                {
+                    "address": "fe80::6302:5f0d:fc68:2028%utun1",
+                    "prefix": "64",
+                    "scope": "0x14"
+                }
+            ],
+            "macaddress": "unknown",
+            "mtu": "2000",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "type": "unknown"
+        },
+        "utun2": {
+            "device": "utun2",
+            "flags": [
+                "UP",
+                "POINTOPOINT",
+                "RUNNING",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [
+                {
+                    "address": "fe80::ce81:b1c:bd2c:69e%utun2",
+                    "prefix": "64",
+                    "scope": "0x15"
+                }
+            ],
+            "macaddress": "unknown",
+            "mtu": "1000",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "type": "unknown"
+        },
+        "utun3": {
+            "device": "utun3",
+            "flags": [
+                "UP",
+                "POINTOPOINT",
+                "RUNNING",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [
+                {
+                    "address": "fe80::d4b4:bb84:d414:9974%utun3",
+                    "prefix": "64",
+                    "scope": "0x16"
+                }
+            ],
+            "macaddress": "unknown",
+            "mtu": "1500",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "type": "unknown"
+        },
+        "utun4": {
+            "device": "utun4",
+            "flags": [
+                "UP",
+                "POINTOPOINT",
+                "RUNNING",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [
+                {
+                    "address": "fe80::bb5:1472:ecdf:8106%utun4",
+                    "prefix": "64",
+                    "scope": "0x17"
+                }
+            ],
+            "macaddress": "unknown",
+            "mtu": "1380",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "type": "unknown"
+        },
+        "utun5": {
+            "device": "utun5",
+            "flags": [
+                "UP",
+                "POINTOPOINT",
+                "RUNNING",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [
+                {
+                    "address": "fe80::7db1:531e:9870:5492%utun5",
+                    "prefix": "64",
+                    "scope": "0x18"
+                }
+            ],
+            "macaddress": "unknown",
+            "mtu": "1380",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "type": "unknown"
+        },
+        "utun6": {
+            "device": "utun6",
+            "flags": [
+                "UP",
+                "POINTOPOINT",
+                "RUNNING",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [
+                {
+                    "address": "fe80::5e1a:4829:cefb:a99f%utun6",
+                    "prefix": "64",
+                    "scope": "0x19"
+                }
+            ],
+            "macaddress": "unknown",
+            "mtu": "1380",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "type": "unknown"
+        },
+        "utun7": {
+            "device": "utun7",
+            "flags": [
+                "UP",
+                "POINTOPOINT",
+                "RUNNING",
+                "MULTICAST"
+            ],
+            "ipv4": [],
+            "ipv6": [
+                {
+                    "address": "fe80::243:8847:4f9d:30cc%utun7",
+                    "prefix": "64",
+                    "scope": "0x1a"
+                }
+            ],
+            "macaddress": "unknown",
+            "mtu": "1380",
+            "options": [
+                "PERFORMNUD",
+                "DAD"
+            ],
+            "type": "unknown"
+        },
+        "virtualization_role": "",
+        "virtualization_tech_guest": [],
+        "virtualization_tech_host": [],
+        "virtualization_type": ""
+    }
+}

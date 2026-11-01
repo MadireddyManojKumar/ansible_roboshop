@@ -1,0 +1,157 @@
+# ------------------------------------------------------------------
+# Ansible Data Types
+# ------------------------------------------------------------------
+# Ansible is written in YAML, so its data types come from YAML.
+# The main ones:
+#   1. String      -> text
+#   2. Number      -> integer (whole) or float (decimal)
+#   3. Boolean     -> true / false
+#   4. List        -> ordered collection of items (like an array)
+#   5. Dictionary  -> key: value pairs (also called a map or hash)
+#   6. Null        -> no value
+# The "type_debug" filter tells you which type Ansible sees for a variable.
+# ------------------------------------------------------------------
+
+- name: ansible data types
+  hosts: local
+  connection: local
+  gather_facts: false   # we don't need facts here, so skip them to run faster
+
+  vars:
+    # ---------------- 1. STRING ----------------
+    # Quotes are optional, but use them when the value has special characters (: { } # etc.)
+    course_name: "DevSecOps"
+    tool: ansible                 # no quotes, still a string
+    version_as_string: "2.17"     # quoted, so it's a STRING, not a number
+
+    # Multi-line strings:
+    # "|" (literal) keeps the line breaks as they are -> good for scripts and config files
+    literal_text: |
+      line one
+      line two
+    # ">" (folded) joins the lines into one line with spaces -> good for long sentences
+    folded_text: >
+      this is a long sentence
+      that becomes one line
+
+    # ---------------- 2. NUMBER ----------------
+    port: 8080          # integer
+    cpu_limit: 1.5      # float (decimal)
+
+    # ---------------- 3. BOOLEAN ----------------
+    # Use true/false (lowercase) as best practice.
+    # YAML also accepts yes/no, True/False, on/off, but keep it consistent.
+    is_production: false
+    enable_firewall: true
+
+    # ---------------- 4. LIST ----------------
+    # Each item starts with "-". Items are read by index, starting at 0.
+    packages:
+      - nginx
+      - git
+      - python3
+    # Inline (flow) style for the same kind of list:
+    ports_list: [80, 443, 8080]
+
+    # ---------------- 5. DICTIONARY ----------------
+    # key: value pairs. Read with dot notation (db.host) or brackets (db['host']).
+    db:
+      host: mongodb.example.com
+      port: 27017
+      ssl: true
+    # Inline (flow) style:
+    app: { name: catalogue, replicas: 2 }
+
+    # ---------------- 6. NESTED (list of dictionaries) ----------------
+    # Very common in real playbooks, e.g. creating many users with loop.
+    users:
+      - name: manoj
+        uid: 1001
+        groups: [wheel, docker]
+      - name: roboshop
+        uid: 1002
+        groups: [roboshop]
+
+    # ---------------- 7. NULL ----------------
+    # Empty value, "null", or "~" all mean null (Python None).
+    optional_value: null
+
+  tasks:
+  - name: print string
+    debug:
+      msg: "course={{ course_name }}, tool={{ tool }}, type={{ course_name | type_debug }}"   # type -> str
+
+  - name: quoted number is a string
+    debug:
+      msg: "{{ version_as_string }} is {{ version_as_string | type_debug }}"   # str, because it's in quotes
+
+  - name: multi-line strings
+    debug:
+      msg:
+        - "literal: {{ literal_text }}"   # keeps \n between lines
+        - "folded: {{ folded_text }}"     # one line
+
+  - name: print numbers and do math
+    debug:
+      msg: "port={{ port }} ({{ port | type_debug }}), cpu={{ cpu_limit }} ({{ cpu_limit | type_debug }}), port+1={{ port + 1 }}"
+      # int and float support arithmetic. A string like "8080" would need "| int" first.
+
+  - name: use boolean in a condition
+    debug:
+      msg: "Firewall is enabled"
+    when: enable_firewall      # booleans are mostly used with "when"
+
+  - name: skipped because is_production is false
+    debug:
+      msg: "This runs only in production"
+    when: is_production
+
+  - name: print list and access items by index
+    debug:
+      msg:
+        - "full list: {{ packages }}"
+        - "first item: {{ packages[0] }}"        # index starts at 0
+        - "count: {{ packages | length }}"       # length filter gives the number of items
+        - "type: {{ packages | type_debug }}"    # list
+
+  - name: loop over a list
+    debug:
+      msg: "installing {{ item }}" # item is a reserved word in ansible
+    loop: "{{ packages }}"     # "item" holds the current element on each pass
+
+  - name: access dictionary values
+    debug:
+      msg:
+        - "db host (dot): {{ db.host }}"
+        - "db port (bracket): {{ db['port'] }}"   # bracket style is safer when keys have - or spaces
+        - "app name: {{ app.name }}"
+        - "type: {{ db | type_debug }}"           # dict
+
+  - name: loop over a dictionary
+    debug:
+      msg: "{{ item.key }} = {{ item.value }}"
+    loop: "{{ db | dict2items }}"   # dict2items turns a dict into a list of {key, value} so loop can use it
+
+  - name: loop over a list of dictionaries
+    debug:
+      msg: "user={{ item.name }}, uid={{ item.uid }}, groups={{ item.groups | join(',') }}"
+    loop: "{{ users }}"
+
+  - name: check null value
+    debug:
+      msg: "optional_value is null -> {{ optional_value is none }}"   # "is none" tests for null
+
+  - name: type conversion with filters
+    debug:
+      msg:
+        - "{{ '100' | int + 5 }}"          # string -> int   => 105
+        - "{{ port | string }}"            # int -> string
+        - "{{ 'yes' | bool }}"             # string -> boolean => True
+        - "{{ '3.14' | float }}"           # string -> float
+
+#{#
+ # To run this playbook (same inventory as the other concept files
+ # ansible-playbook -i inventory.ini ansible_datatypes.yaml
+ # Syntax check only:
+ # ansible-playbook -i inventory.ini ansible_datatypes.yaml --syntax-check
+#}

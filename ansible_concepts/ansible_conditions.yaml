@@ -1,0 +1,225 @@
+# ansible_conditions.yaml
+# Conditions in Ansible are written with the "when:" keyword.
+#   - "when" is checked per host, per task. If it is false the task is SKIPPED (not failed).
+#   - "when" is already Jinja2, so do NOT wrap variables in {{ }} inside it.
+#       right : when: env == "dev"
+#       wrong : when: "{{ env }}" == "dev"
+#   - If the condition starts with a quote ( ' or " ), wrap the whole thing in quotes,
+#     otherwise YAML fails to parse it.  e.g.  when: "'git' in packages"
+#
+# Run:  ansible-playbook -i inventory.ini ansible_conditions.yaml
+#       ansible-playbook -i inventory.ini ansible_conditions.yaml -e env=prod   (see what changes)
+
+- name: Ansible conditions examples
+  hosts: local
+  connection: local            # run on this machine without SSH
+  gather_facts: true           # needed for the ansible_facts examples below
+  vars:
+    env: dev
+    app_port: 8080
+    enable_debug: true
+    db_password: ""            # left empty on purpose to demo the length check
+    packages: [nginx, git, curl]
+    users:
+      - { name: alice, admin: true }
+      - { name: bob, admin: false }
+
+  tasks:
+    # ---------------------------------------------------------------
+    # 1. Basic comparisons: ==  !=  >  <  >=  <=
+    # ---------------------------------------------------------------
+    - name: Equal - runs only in dev
+      ansible.builtin.debug:
+        msg: "Environment is {{ env }}"
+      when: env == "dev"
+
+    - name: Not equal - runs everywhere except prod
+      ansible.builtin.debug:
+        msg: "Not a production run"
+      when: env != "prod"
+
+    # Values from inventory or -e come in as strings, so convert with "| int" before comparing numbers
+    - name: Number compare - port is not a privileged port
+      ansible.builtin.debug:
+        msg: "Port {{ app_port }} does not need root"
+      when: app_port | int > 1024
+
+    # ---------------------------------------------------------------
+    # 2. Booleans and "not"
+    # ---------------------------------------------------------------
+    # "| bool" turns "yes", "true", "1" (strings from -e) into a real true/false
+    - name: Boolean - debug mode on
+      ansible.builtin.debug:
+        msg: "Debug mode is enabled"
+      when: enable_debug | bool
+
+    - name: Negation - debug mode off
+      ansible.builtin.debug:
+        msg: "Debug mode is disabled"
+      when: not (enable_debug | bool)
+
+    # ---------------------------------------------------------------
+    # 3. Combining conditions: and / or
+    # ---------------------------------------------------------------
+    # A list under "when" means AND - every line must be true
+    - name: AND (list form) - dev on port 8080
+      ansible.builtin.debug:
+        msg: "Dev app on 8080"
+      when:
+        - env == "dev"
+        - app_port | int == 8080
+
+    - name: OR - non-production environments
+      ansible.builtin.debug:
+        msg: "Lower environment: {{ env }}"
+      when: env == "dev" or env == "qa"
+
+    # ---------------------------------------------------------------
+    # 4. Membership: in / not in
+    # ---------------------------------------------------------------
+    # Cleaner than writing many "or" checks
+    - name: IN list - env is one of dev/qa
+      ansible.builtin.debug:
+        msg: "{{ env }} is a test environment"
+      when: env in ["dev", "qa"]
+
+    # Starts with a quote, so the whole condition is quoted
+    - name: IN list - git is in the package list
+      ansible.builtin.debug:
+        msg: "git will be installed"
+      when: "'git' in packages"
+
+    # ---------------------------------------------------------------
+    # 5. Is the variable defined / empty?
+    # ---------------------------------------------------------------
+    # Avoids "undefined variable" errors for optional vars (try: -e app_version=v2)
+    - name: Defined - optional variable was passed
+      ansible.builtin.debug:
+        msg: "Deploying version {{ app_version }}"
+      when: app_version is defined
+
+    - name: Not defined - fall back to latest
+      ansible.builtin.debug:
+        msg: "app_version not given, using latest"
+      when: app_version is not defined
+
+    # "is defined" is true even for "", so also check the length for empty strings
+    - name: Empty string - password not set
+      ansible.builtin.debug:
+        msg: "WARNING: db_password is empty"
+      when: db_password | length == 0
+
+    # ---------------------------------------------------------------
+    # 6. Conditions on facts (OS, memory, etc.)
+    # ---------------------------------------------------------------
+    # Most common real use: pick the right commands for the OS
+    - name: Facts - only on macOS
+      ansible.builtin.debug:
+        msg: "macOS host, use homebrew"
+      when: ansible_facts['os_family'] == "Darwin"
+
+    - name: Facts - only on RedHat family (skipped on a Mac)
+      ansible.builtin.debug:
+        msg: "RedHat host, use dnf"
+      when: ansible_facts['os_family'] == "RedHat"
+
+    - name: Facts - enough memory
+      ansible.builtin.debug:
+        msg: "Host has {{ ansible_facts['memtotal_mb'] }} MB RAM"
+      when: ansible_facts['memtotal_mb'] | int >= 4096
+
+    # ---------------------------------------------------------------
+    # 7. Conditions on the result of an earlier task (register)
+    # ---------------------------------------------------------------
+    # failed_when: false -> never fail, we only want the return code
+    # changed_when: false -> a read-only check should not show "changed"
+    - name: Register - check if git is installed
+      ansible.builtin.command: which git
+      register: git_check
+      failed_when: false
+      changed_when: false
+
+    - name: Register - rc is 0 means command worked
+      ansible.builtin.debug:
+        msg: "git found at {{ git_check.stdout }}"
+      when: git_check.rc == 0
+
+    - name: Register - rc not 0 means git is missing
+      ansible.builtin.debug:
+        msg: "git is NOT installed"
+      when: git_check.rc != 0
+
+    # Check what the command printed
+    - name: Register - read OS name
+      ansible.builtin.command: uname -s
+      register: os_name
+      changed_when: false
+
+    - name: Register - output contains a word
+      ansible.builtin.debug:
+        msg: "uname says Darwin"
+      when: "'Darwin' in os_name.stdout"
+
+    # ---------------------------------------------------------------
+    # 8. Does a file / directory exist? (stat + when)
+    # ---------------------------------------------------------------
+    - name: Stat - look at /etc/hosts
+      ansible.builtin.stat:
+        path: /etc/hosts
+      register: hosts_file
+
+    - name: Stat - file exists
+      ansible.builtin.debug:
+        msg: "/etc/hosts exists"
+      when: hosts_file.stat.exists
+
+    # ---------------------------------------------------------------
+    # 9. when + loop - the condition is checked for EACH item
+    # ---------------------------------------------------------------
+    - name: Loop - print only admin users
+      ansible.builtin.debug:
+        msg: "{{ item.name }} is an admin"
+      loop: "{{ users }}"
+      when: item.admin
+
+    # ---------------------------------------------------------------
+    # 10. when on a block - one condition for many tasks
+    # ---------------------------------------------------------------
+    - name: Block - dev-only setup
+      when: env == "dev"
+      block:
+        - name: Block task 1
+          ansible.builtin.debug:
+            msg: "Enabling verbose logs"
+
+        - name: Block task 2
+          ansible.builtin.debug:
+            msg: "Seeding test data"
+
+    # ---------------------------------------------------------------
+    # 11. Inventory based - which group is this host in?
+    # ---------------------------------------------------------------
+    # group_names = list of groups the current host belongs to (from inventory.ini)
+    - name: Inventory - host is in the local group
+      ansible.builtin.debug:
+        msg: "{{ inventory_hostname }} is in group(s) {{ group_names }}"
+      when: "'local' in group_names"
+
+    # ---------------------------------------------------------------
+    # 12. Conditions that control task status: failed_when / changed_when / assert
+    # ---------------------------------------------------------------
+    # failed_when: decide yourself what counts as a failure
+    - name: failed_when - fail only if disk usage output is empty
+      ansible.builtin.command: df -h /
+      register: disk
+      changed_when: false
+      failed_when: disk.stdout | length == 0
+
+    # assert: stop the play early with a clear message if inputs are wrong
+    - name: Assert - validate inputs before deploying
+      ansible.builtin.assert:
+        that:
+          - env in ["dev", "qa", "prod"]
+          - app_port | int > 0
+        fail_msg: "Invalid env or port"
+        success_msg: "Inputs look good"

@@ -1,0 +1,176 @@
+# ansible_functions.yaml
+# "Functions" in Ansible = Jinja2 FILTERS and LOOKUPS.
+#   - Filter : takes a value on the left of "|" and returns a new value.
+#                syntax : {{ value | filter_name(args) }}
+#                e.g.   : {{ "roboshop" | upper }}  ->  ROBOSHOP
+#   - Filters can be chained left to right: {{ list | unique | sort | join(',') }}
+#   - Lookup : reads data from OUTSIDE the playbook (env vars, files, commands).
+#                syntax : {{ lookup('plugin_name', 'arg') }}
+#   - Lookups always run on the CONTROL node (your machine), not on the target host.
+#   - You cannot write your own function in a playbook. For reusable logic use
+#     include_tasks + vars, a role, or a custom filter plugin (Python).
+#
+# Run:  ansible-playbook -i inventory.ini ansible_functions.yaml
+#       ansible-playbook -i inventory.ini ansible_functions.yaml -e app_name=cart   (see default() change)
+#       ansible-playbook -i inventory.ini ansible_functions.yaml -v                  (more output)
+#
+# Quick test of a single filter without a playbook (ad-hoc):
+#       ansible localhost -m debug -a "msg={{ 'roboshop' | upper }}"
+#       ansible localhost -m debug -a "msg={{ [3,1,2] | sort }}"
+# List all filters/lookups available:
+#       ansible-doc -t filter -l
+#       ansible-doc -t lookup -l
+#       ansible-doc -t filter ansible.builtin.combine     (docs for one filter)
+
+- name: Ansible functions (filters and lookups) examples
+  hosts: local
+  connection: local            # run on this machine without SSH
+  gather_facts: false          # not needed here, makes the run faster
+  vars:
+    project: roboshop
+    version: "v1.2.3"
+    port: "8080"               # a string on purpose, to show the | int conversion
+    packages: [nginx, git, curl, git, nginx]     # has duplicates on purpose
+    users:
+      - { name: alice, admin: true }
+      - { name: bob, admin: false }
+      - { name: carol, admin: true }
+    default_config: { port: 80, debug: false }
+    override_config: { debug: true }
+    log_path: /var/log/roboshop/app.log
+
+  tasks:
+    # ---------------------------------------------------------------
+    # 1. String functions
+    # ---------------------------------------------------------------
+    - name: String - upper / lower / title / length
+      ansible.builtin.debug:
+        msg:
+          - "upper  : {{ project | upper }}"        # ROBOSHOP
+          - "title  : {{ project | title }}"        # Roboshop
+          - "length : {{ project | length }}"       # 8
+
+    - name: String - replace / split / regex_replace
+      ansible.builtin.debug:
+        msg:
+          - "replace : {{ version | replace('v', '') }}"            # 1.2.3
+          - "split   : {{ version | replace('v', '') | split('.') }}" # ['1','2','3']
+          - "major   : {{ version | regex_replace('^v(\\d+).*', '\\1') }}"  # 1
+
+    # ---------------------------------------------------------------
+    # 2. Type conversion - very common in "when" and math
+    # ---------------------------------------------------------------
+    # Vars from inventory / -e are strings, so convert before comparing numbers
+    - name: Convert - int / bool / string
+      ansible.builtin.debug:
+        msg:
+          - "port + 1 : {{ port | int + 1 }}"       # 8081 (without | int this fails)
+          - "bool     : {{ 'yes' | bool }}"          # True
+          - "string   : {{ 42 | string }}"           # '42'
+
+    # ---------------------------------------------------------------
+    # 3. default() - fallback value for a missing variable
+    # ---------------------------------------------------------------
+    # Most used filter. Stops "undefined variable" errors. Try: -e app_name=cart
+    - name: Default - use 'frontend' if app_name is not passed
+      ansible.builtin.debug:
+        msg: "App name is {{ app_name | default('frontend') }}"
+
+    # ternary = one-line if/else
+    - name: Ternary - pick a value based on a condition
+      ansible.builtin.debug:
+        msg: "Mode is {{ (port | int > 1024) | ternary('non-root', 'root') }}"
+
+    # ---------------------------------------------------------------
+    # 4. List functions
+    # ---------------------------------------------------------------
+    - name: List - unique / sort / join / first / last / count
+      ansible.builtin.debug:
+        msg:
+          - "unique : {{ packages | unique }}"                      # [nginx, git, curl]
+          - "sorted : {{ packages | unique | sort }}"               # [curl, git, nginx]
+          - "joined : {{ packages | unique | join(', ') }}"         # nginx, git, curl
+          - "first  : {{ packages | first }} / last: {{ packages | last }}"
+          - "count  : {{ packages | length }}"                      # 5
+
+    - name: List - math on numbers
+      ansible.builtin.debug:
+        msg: "min={{ [4, 9, 2] | min }} max={{ [4, 9, 2] | max }} sum={{ [4, 9, 2] | sum }}"
+
+    # ---------------------------------------------------------------
+    # 5. List of dicts - filter and pick fields (selectattr / map)
+    # ---------------------------------------------------------------
+    # selectattr('admin') keeps items where admin is true
+    # map(attribute='name') picks only the name field
+    # list turns the result into a real list (always add it at the end)
+    - name: Select - names of admin users only
+      ansible.builtin.debug:
+        msg: "Admins: {{ users | selectattr('admin') | map(attribute='name') | list }}"   # [alice, carol]
+
+    - name: Reject - names of non-admin users
+      ansible.builtin.debug:
+        msg: "Normal users: {{ users | rejectattr('admin') | map(attribute='name') | list }}"   # [bob]
+
+    # ---------------------------------------------------------------
+    # 6. Dict functions
+    # ---------------------------------------------------------------
+    # combine = merge dicts, values on the right win
+    - name: Dict - combine (merge) two dicts
+      ansible.builtin.debug:
+        msg: "{{ default_config | combine(override_config) }}"    # {port: 80, debug: true}
+
+    # dict2items turns a dict into a list so you can loop over it
+    - name: Dict - dict2items to loop over key/value
+      ansible.builtin.debug:
+        msg: "{{ item.key }} = {{ item.value }}"
+      loop: "{{ default_config | dict2items }}"
+
+    # ---------------------------------------------------------------
+    # 7. Path, encoding and data-format functions
+    # ---------------------------------------------------------------
+    - name: Path - basename / dirname
+      ansible.builtin.debug:
+        msg:
+          - "file name : {{ log_path | basename }}"   # app.log
+          - "directory : {{ log_path | dirname }}"    # /var/log/roboshop
+
+    - name: Encode - base64 and hash
+      ansible.builtin.debug:
+        msg:
+          - "base64 : {{ 'secret' | b64encode }}"
+          - "decode : {{ 'c2VjcmV0' | b64decode }}"
+          - "sha256 : {{ 'secret' | hash('sha256') }}"
+
+    - name: Format - convert to JSON / YAML
+      ansible.builtin.debug:
+        msg: "{{ default_config | to_nice_json }}"
+
+    # ---------------------------------------------------------------
+    # 8. Lookups - read data from outside the playbook (control node)
+    # ---------------------------------------------------------------
+    - name: Lookup - environment variable / command output / file
+      ansible.builtin.debug:
+        msg:
+          - "HOME   : {{ lookup('env', 'HOME') }}"
+          - "whoami : {{ lookup('pipe', 'whoami') }}"
+          - "hosts  : {{ lookup('file', '/etc/hosts') | length }} characters"
+
+    # ---------------------------------------------------------------
+    # 9. Jinja global functions - called directly, no "|"
+    # ---------------------------------------------------------------
+    - name: Global - range() and now()
+      ansible.builtin.debug:
+        msg:
+          - "range : {{ range(1, 4) | list }}"             # [1, 2, 3]
+          - "today : {{ now(fmt='%Y-%m-%d') }}"            # current date
+
+    # ---------------------------------------------------------------
+    # 10. Real use - build a value with functions and save it with set_fact
+    # ---------------------------------------------------------------
+    - name: set_fact - make a clean release name
+      ansible.builtin.set_fact:
+        release_name: "{{ project | upper }}-{{ version | replace('v', '') }}-{{ now(fmt='%Y%m%d') }}"
+
+    - name: Show release name
+      ansible.builtin.debug:
+        var: release_name       # e.g. ROBOSHOP-1.2.3-20261101

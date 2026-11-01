@@ -1,4 +1,5 @@
 #this is ansible play-book
+# in ansible variables and facts both are same. different people call differently.
 
 - name: "Ansible variables"
   hosts: localhost

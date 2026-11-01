@@ -1,0 +1,20 @@
+- name: ansible_facts
+  hosts : local
+  connection: local
+
+  tasks:
+  - name: print all ansible facts
+    debug:
+      #msg: "{{ansible_facts}}" #ansible facts is a reserved word, which prints all the facts.
+      # when ever we give some command or run a ansible script, ansible will learn from that script and gather some facts.
+
+  - name:
+    debug:
+      msg: "{{ansible_facts.all_ipv4_addresses}}" ## to understand i have copied all th eansible facts in a separate yaml file.
+      #printing all iov4 addresses which ansible collected. from the ansible_facts output we're collecting all ipv4 addresses.
+
+
+# - To run this ansible script you have to install ansible in your machine.
+# after installing ansible run below command
+  #ansible-playbook -i inventory.ini ansible_gatherfacts.yaml
+  

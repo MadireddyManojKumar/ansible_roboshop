@@ -1,0 +1,82 @@
+- name: Deploy catalogue service with rollback on failure
+  hosts: catalogue
+  become: yes
+  vars:
+    app_dir: /app
+    backup_dir: /tmp/app_backup
+    artifact_url: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+
+  tasks:
+    - name: Safe deployment
+      block:
+        # ---------- TRY ----------
+        # If any task in this block fails, Ansible skips the rest of the block
+        # and jumps to 'rescue'. It does not stop the play.
+
+        - name: Back up current application code
+          ansible.builtin.copy:
+            src: "{{ app_dir }}/"
+            dest: "{{ backup_dir }}/"
+            remote_src: yes          # copy on the remote host, not from the controller
+
+        - name: Download new artifact
+          ansible.builtin.get_url:
+            url: "{{ artifact_url }}"
+            dest: /tmp/catalogue.zip
+            timeout: 30              # fail fast instead of hanging
+
+        - name: Extract new code into app directory
+          ansible.builtin.unarchive:
+            src: /tmp/catalogue.zip
+            dest: "{{ app_dir }}"
+            remote_src: yes
+
+        - name: Restart catalogue service
+          ansible.builtin.systemd:
+            name: catalogue
+            state: restarted
+            daemon_reload: yes
+
+        - name: Health check - app must answer HTTP 200
+          ansible.builtin.uri:
+            url: http://localhost:8080/health
+            status_code: 200
+          register: health
+          retries: 5                 # try up to 5 times
+          delay: 5                   # wait 5 seconds between tries
+          until: health.status == 200
+
+      rescue:
+        # ---------- CATCH ----------
+        # Runs only if a task in 'block' failed.
+        # 'ansible_failed_task' and 'ansible_failed_result' are magic variables
+        # that tell you which task failed and why.
+
+        - name: Show what went wrong
+          ansible.builtin.debug:
+            msg: "Task '{{ ansible_failed_task.name }}' failed: {{ ansible_failed_result.msg | default('no message') }}"
+
+        - name: Restore previous code from backup
+          ansible.builtin.copy:
+            src: "{{ backup_dir }}/"
+            dest: "{{ app_dir }}/"
+            remote_src: yes
+
+        - name: Restart service on old version
+          ansible.builtin.systemd:
+            name: catalogue
+            state: restarted
+
+        # Without this, the host would count as "rescued" (a success).
+        # Fail on purpose so CI/CD and the play recap show the deploy as failed.
+        - name: Mark deployment as failed after rollback
+          ansible.builtin.fail:
+            msg: "Deployment failed and was rolled back to the previous version."
+
+      always:
+        # ---------- FINALLY ----------
+        # Always runs, whether 'block' worked or 'rescue' ran.
+        - name: Clean up downloaded artifact
+          ansible.builtin.file:
+            path: /tmp/catalogue.zip
+            state: absent

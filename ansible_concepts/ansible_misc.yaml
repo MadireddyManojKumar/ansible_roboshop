@@ -1,0 +1,21 @@
+- name: command, shell and register examples
+  hosts: localhost
+  gather_facts: false
+  tasks:
+
+    # command -> use for simple commands without pipes, redirects or shell variables (safe, default)
+    - name: Create a directory using command
+      ansible.builtin.command: mkdir -p /tmp/demo_dir
+
+    # shell -> use when the command needs shell features like |, >, &&, * or $VAR
+    - name: Write date into a file using shell
+      ansible.builtin.shell: date > /tmp/demo_dir/demo_date.txt && echo "done"
+
+    # register -> use to save a task's output and use it in later tasks (debug, when, etc.)
+    - name: Get current user
+      ansible.builtin.command: whoami
+      register: user_out
+
+    - name: Print the captured output
+      ansible.builtin.debug:
+        msg: "Logged in user is {{ user_out.stdout }}"

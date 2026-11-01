@@ -1,0 +1,16 @@
+{# 
+
+Ansible configuration can be loaded in 4 ways. it is always suggested to mainting config file specific to project/repo.
+
+default ansible configuration is available in 
+  1. /etc/ansible/ --> Standard path for ansible configuration
+  2. /opt/homebrew/opt/ansible/bin. --> for mac, because homebrew(pkg installer) changes the location.
+
+ 1. By default ansible config will be loaded from ANSIBLE-CONFIG environment variable
+      a. this config file will be effective for all projects and playbooks
+      b. if we dont want to use this, we can unset using command --> unset ANSIBLE-CONFIG
+ 2. If ansible-config aenv variable  is not available the it will fetch ansible.cfg available with in project/current working directory.
+ 3. Third preference is loading cfg from home directory
+ 4. last option is loading ansible.cfg from  etc/ansible/ansible.cfg
+
+#}
