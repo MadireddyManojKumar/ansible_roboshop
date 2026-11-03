@@ -10,64 +10,64 @@
 #9. Displaying success message after successful deployment of mongodb service.
 
 
-name: Roboshop MongoDB deployment script using ansible
-hosts: mongodb
-become: true
-tasks:
-  - name: setup mongodb repo file
-    vars:
-      mongodb_version: 7.0
-    copy:
-      src: mongo.repo
-      dest: /etc/yum.repos.d/mongo.repo
+- name: Roboshop MongoDB deployment script using ansible
+  hosts: mongodb
+  become: true
+  tasks:
+    - name: setup mongodb repo file
+      vars:
+        mongodb_version: 7.0
+      copy:
+        src: mongo.repo
+        dest: /etc/yum.repos.d/mongo.repo
 
 
-  - name: install mongodb
-    ansible.builtin.package:
-      name: mongod
-      state: present
+    - name: install mongodb
+      ansible.builtin.package:
+        name: mongod
+        state: present
 
-  - name: start mongodb
-    ansible.builtin.service:
-      name: mongod
-      state: started
-      enabled: yes
+    - name: start mongodb
+      ansible.builtin.service:
+        name: mongod
+        state: started
+        enabled: yes
 
-  - name: verify mongodb status
-    ansible.builtin.command: systemctl is-active mongod
-    register: mongodb_status
+    - name: verify mongodb status
+      ansible.builtin.command: systemctl is-active mongod
+      register: mongodb_status
 
-  - name: display mongodb status
-    debug:
-      var: mongodb_status.stdout
+    - name: display mongodb status
+      debug:
+        var: mongodb_status.stdout
 
-  - name: configure mongodb bind_ip
-    replace:
-      path: /etc/mongod.conf
-      regexp: "127.0.0.1"
-      replace: "0.0.0.0"
+    - name: configure mongodb bind_ip
+      replace:
+        path: /etc/mongod.conf
+        regexp: "127.0.0.1"
+        replace: "0.0.0.0"
 
-  - name: restart mongodb
-    ansible.builtin.service:
-      name: mongod
-      state: restarted
+    - name: restart mongodb
+      ansible.builtin.service:
+        name: mongod
+        state: restarted
 
-  - name: verify mongodb status after restart
-    ansible.builtin.command: systemctl is-active mongod
-    register: mongodb_status_after_restart
+    - name: verify mongodb status after restart
+      ansible.builtin.command: systemctl is-active mongod
+      register: mongodb_status_after_restart
 
-  - name: display mongodb status after restart
-    debug:
-      var: mongodb_status_after_restart.stdout
+    - name: display mongodb status after restart
+      debug:
+        var: mongodb_status_after_restart.stdout
 
-  - name: verify mongodb listening port
-    command: netstat -tulnp | grep 27017
-    register: mongodb_port_status
+    - name: verify mongodb listening port
+      command: netstat -tulnp | grep 27017
+      register: mongodb_port_status
 
-  - name: display mongodb listening port status
-    debug:
-      var: mongodb_port_status.stdout
+    - name: display mongodb listening port status
+      debug:
+        var: mongodb_port_status.stdout
 
-  - name: success message
-    debug:
-      msg: "MongoDB deployment completed successfully."
+    - name: success message
+      debug:
+        msg: "MongoDB deployment completed successfully."
