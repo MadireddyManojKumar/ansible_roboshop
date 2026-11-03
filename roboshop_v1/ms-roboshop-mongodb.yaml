@@ -1,0 +1,73 @@
+# Roboshop monogo db service ansible script
+#1. Setting up mongodb repo file
+#2. Installing mongodb
+#3. Starting mongodb service
+#4. Verifying mongodb service status
+#5. Configuring mongodb bind_ip to 0.0.0.0  
+#6. Restarting mongodb service. --> make sure to restart service after changing configurations.
+#7. Verifying mongodb service status after restart
+#8. Verifying mongodb listening port
+#9. Displaying success message after successful deployment of mongodb service.
+
+
+name: Roboshop MongoDB deployment script using ansible
+hosts: mongodb
+become: true
+tasks:
+  - name: setup mongodb repo file
+    vars:
+      mongodb_version: 7.0
+    copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+
+  - name: install mongodb
+    ansible.builtin.package:
+      name: mongod
+      state: present
+
+  - name: start mongodb
+    ansible.builtin.service:
+      name: mongod
+      state: started
+      enabled: yes
+
+  - name: verify mongodb status
+    ansible.builtin.command: systemctl is-active mongod
+    register: mongodb_status
+
+  - name: display mongodb status
+    debug:
+      var: mongodb_status.stdout
+
+  - name: configure mongodb bind_ip
+    replace:
+      path: /etc/mongod.conf
+      regexp: "127.0.0.1"
+      replace: "0.0.0.0"
+
+  - name: restart mongodb
+    ansible.builtin.service:
+      name: mongod
+      state: restarted
+
+  - name: verify mongodb status after restart
+    ansible.builtin.command: systemctl is-active mongod
+    register: mongodb_status_after_restart
+
+  - name: display mongodb status after restart
+    debug:
+      var: mongodb_status_after_restart.stdout
+
+  - name: verify mongodb listening port
+    command: netstat -tulnp | grep 27017
+    register: mongodb_port_status
+
+  - name: display mongodb listening port status
+    debug:
+      var: mongodb_port_status.stdout
+
+  - name: success message
+    debug:
+      msg: "MongoDB deployment completed successfully."
