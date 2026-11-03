@@ -6,7 +6,7 @@
     instance_type: t3.micro
     instances: ["mongodb", "redis", "mysql", "rabbitmq"]
     domain_name: manojkumar.blog
-    action: create
+    action: delete
   tasks:
 
 #-- Creating ec2 instances when action is create
