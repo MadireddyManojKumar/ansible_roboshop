@@ -4,10 +4,11 @@
   vars:
     ami_id: ami-0055977a6e828a4f4
     instance_type: t3.micro
-    instances: ["mongodb", "mysql"]
+    instances: ["mongodb", "redis", "mysql", "rabbitmq"]
+    domain_name: daws.manojkumar.blog
     action: create
   tasks:
-    - name: "mongodb instance"
+    - name: create ec2 instances
       amazon.aws.ec2_instance:
         name: roboshop-{{item}}
         image_id: "{{ ami_id }}"
@@ -18,6 +19,12 @@
         region: us-east-1
       loop: "{{instances}}"
       when: action == "create"
+      register: ec2_instance_creation_output
+    
+    - name: ec2 instance creation output
+      debug:  
+        msg: "{{ec2_instance_creation_output}}"
+
         
 
 
