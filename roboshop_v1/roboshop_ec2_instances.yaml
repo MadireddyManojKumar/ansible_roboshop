@@ -25,16 +25,18 @@
 #     debug:  
 #        msg: "{{ec2_instance_creation_output}}"
 
-    - name: "route53 record creation for ec2 instances"
+    - name: route53 record creation
       amazon.aws.route53:
-        state: present
-        zone: "{{ domain_name }}"
-        record: "{{item.item}}.{{ domain_name }}"
-        type: A
-        ttl: 1
-        value: "{{ item.instances[0].private_ip_address }}"
-        overwrite: yes
-      loop: "{{ec2_instance_creation_output.results}}"
+          state: present
+          zone: "{{ domain_name }}"
+          record: "roboshop-{{ item.item }}.{{ domain_name }}"
+          type: A
+          ttl: 300
+          value: "{{ item.instances[0].private_ip_address }}"
+          overwrite: true
+      loop: "{{ ec2_instance_creation_output.results }}"
+      loop_control:
+        label: "{{ item.item }}"
       when: action == "create"
 
       
