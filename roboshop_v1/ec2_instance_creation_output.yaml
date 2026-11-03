@@ -1,0 +1,745 @@
+ results:
+        -   ansible_loop_var: item
+            changed: false
+            changes: []
+            failed: false
+            instance_ids:
+            - i-01c1843c80f66d8e7
+            instances:
+            -   ami_launch_index: 0
+                architecture: x86_64
+                block_device_mappings:
+                -   device_name: /dev/sda1
+                    ebs:
+                        attach_time: '2026-11-03T19:39:23+00:00'
+                        delete_on_termination: true
+                        ebs_card_index: 0
+                        status: attached
+                        volume_id: vol-016dceed2eaed8dfa
+                boot_mode: uefi-preferred
+                capacity_reservation_specification:
+                    capacity_reservation_preference: open
+                client_token: abb7773986004ddc9b70c4e19beb1fa5
+                cpu_options:
+                    core_count: 1
+                    threads_per_core: 2
+                current_instance_boot_mode: uefi
+                ebs_optimized: false
+                ena_support: true
+                enclave_options:
+                    enabled: false
+                hibernation_options:
+                    configured: false
+                hypervisor: xen
+                image_id: ami-0055977a6e828a4f4
+                instance_id: i-01c1843c80f66d8e7
+                instance_type: t3.micro
+                launch_time: '2026-11-03T19:39:22+00:00'
+                maintenance_options:
+                    auto_recovery: default
+                    reboot_migration: default
+                metadata_options:
+                    http_endpoint: enabled
+                    http_protocol_ipv6: disabled
+                    http_put_response_hop_limit: 1
+                    http_tokens: optional
+                    instance_metadata_tags: disabled
+                    state: applied
+                monitoring:
+                    state: disabled
+                network_interfaces:
+                -   association:
+                        ip_owner_id: amazon
+                        public_dns_name: ec2-3-235-55-28.compute-1.amazonaws.com
+                        public_ip: 3.235.55.28
+                    attachment:
+                        attach_time: '2026-11-03T19:39:22+00:00'
+                        attachment_id: eni-attach-01fe2e3c177c44eea
+                        delete_on_termination: true
+                        device_index: 0
+                        network_card_index: 0
+                        status: attached
+                    description: ''
+                    groups:
+                    -   group_id: sg-040fd5e63a6f8c496
+                        group_name: roboshop-mongodb
+                    -   group_id: sg-097b1168e80138a79
+                        group_name: roboshop-common
+                    interface_type: interface
+                    ipv6_addresses: []
+                    mac_address: 02:ff:e4:3f:fc:d3
+                    network_interface_id: eni-0643638dc963fa824
+                    operator:
+                        managed: false
+                    owner_id: '826997323722'
+                    private_dns_name: ip-172-31-15-132.ec2.internal
+                    private_ip_address: 172.31.15.132
+                    private_ip_addresses:
+                    -   association:
+                            ip_owner_id: amazon
+                            public_dns_name: ec2-3-235-55-28.compute-1.amazonaws.com
+                            public_ip: 3.235.55.28
+                        primary: true
+                        private_dns_name: ip-172-31-15-132.ec2.internal
+                        private_ip_address: 172.31.15.132
+                    source_dest_check: true
+                    status: in-use
+                    subnet_id: subnet-0990e18e4d136bbd2
+                    vpc_id: vpc-0c19404b02f922213
+                network_performance_options:
+                    bandwidth_weighting: default
+                operator:
+                    hidden_by_default: false
+                    managed: false
+                placement:
+                    availability_zone: us-east-1a
+                    availability_zone_id: use1-az1
+                    group_name: ''
+                    tenancy: default
+                platform_details: Red Hat Enterprise Linux
+                private_dns_name: ip-172-31-15-132.ec2.internal
+                private_dns_name_options:
+                    enable_resource_name_dns_a_record: false
+                    enable_resource_name_dns_aaaa_record: false
+                    hostname_type: ip-name
+                private_ip_address: 172.31.15.132
+                product_codes: []
+                public_dns_name: ec2-3-235-55-28.compute-1.amazonaws.com
+                public_ip_address: 3.235.55.28
+                root_device_name: /dev/sda1
+                root_device_type: ebs
+                secondary_interfaces: []
+                security_groups:
+                -   group_id: sg-040fd5e63a6f8c496
+                    group_name: roboshop-mongodb
+                -   group_id: sg-097b1168e80138a79
+                    group_name: roboshop-common
+                source_dest_check: true
+                state:
+                    code: 16
+                    name: running
+                state_transition_reason: ''
+                subnet_id: subnet-0990e18e4d136bbd2
+                tags:
+                    Name: roboshop-mongodb
+                usage_operation: RunInstances:0010
+                usage_operation_update_time: '2026-11-03T19:39:22+00:00'
+                virtualization_type: hvm
+                vpc_id: vpc-0c19404b02f922213
+            invocation:
+                module_args:
+                    aap_callback: null
+                    access_key: null
+                    availability_zone: null
+                    aws_ca_bundle: /etc/pki/tls/certs/ca-bundle.crt
+                    aws_config: null
+                    count: null
+                    cpu_credit_specification: null
+                    cpu_options: null
+                    debug_botocore_endpoint_logs: false
+                    detailed_monitoring: null
+                    ebs_optimized: null
+                    endpoint_url: null
+                    exact_count: null
+                    filters:
+                        image-id:
+                        - ami-0055977a6e828a4f4
+                        instance-state-name:
+                        - pending
+                        - running
+                        - stopping
+                        - stopped
+                        subnet-id: subnet-0990e18e4d136bbd2
+                        tag:Name:
+                        - roboshop-mongodb
+                    hibernation_options: false
+                    iam_instance_profile: null
+                    image: null
+                    image_id: ami-0055977a6e828a4f4
+                    instance_ids: []
+                    instance_initiated_shutdown_behavior: null
+                    instance_type: t3.micro
+                    key_name: null
+                    launch_template: null
+                    metadata_options: null
+                    name: roboshop-mongodb
+                    network: null
+                    placement_group: null
+                    profile: null
+                    purge_tags: true
+                    region: us-east-1
+                    secret_key: null
+                    security_group: null
+                    security_groups:
+                    - roboshop-mongodb
+                    - roboshop-common
+                    session_token: null
+                    state: present
+                    tags: null
+                    tenancy: null
+                    termination_protection: null
+                    user_data: null
+                    validate_certs: true
+                    volumes: null
+                    vpc_subnet_id: null
+                    wait: true
+                    wait_timeout: 600
+            item: mongodb
+        -   ansible_loop_var: item
+            changed: false
+            changes: []
+            failed: false
+            instance_ids:
+            - i-0b212e19df007a0d7
+            instances:
+            -   ami_launch_index: 0
+                architecture: x86_64
+                block_device_mappings:
+                -   device_name: /dev/sda1
+                    ebs:
+                        attach_time: '2026-11-03T19:39:27+00:00'
+                        delete_on_termination: true
+                        ebs_card_index: 0
+                        status: attached
+                        volume_id: vol-03f023a4063827866
+                boot_mode: uefi-preferred
+                capacity_reservation_specification:
+                    capacity_reservation_preference: open
+                client_token: ba2a8a923e3747e4b9c0b618db786383
+                cpu_options:
+                    core_count: 1
+                    threads_per_core: 2
+                current_instance_boot_mode: uefi
+                ebs_optimized: false
+                ena_support: true
+                enclave_options:
+                    enabled: false
+                hibernation_options:
+                    configured: false
+                hypervisor: xen
+                image_id: ami-0055977a6e828a4f4
+                instance_id: i-0b212e19df007a0d7
+                instance_type: t3.micro
+                launch_time: '2026-11-03T19:39:26+00:00'
+                maintenance_options:
+                    auto_recovery: default
+                    reboot_migration: default
+                metadata_options:
+                    http_endpoint: enabled
+                    http_protocol_ipv6: disabled
+                    http_put_response_hop_limit: 1
+                    http_tokens: optional
+                    instance_metadata_tags: disabled
+                    state: applied
+                monitoring:
+                    state: disabled
+                network_interfaces:
+                -   association:
+                        ip_owner_id: amazon
+                        public_dns_name: ec2-44-201-12-132.compute-1.amazonaws.com
+                        public_ip: 44.201.12.132
+                    attachment:
+                        attach_time: '2026-11-03T19:39:26+00:00'
+                        attachment_id: eni-attach-081813f50fc109422
+                        delete_on_termination: true
+                        device_index: 0
+                        network_card_index: 0
+                        status: attached
+                    description: ''
+                    groups:
+                    -   group_id: sg-0abab6e20ac8910cf
+                        group_name: roboshop-redis
+                    -   group_id: sg-097b1168e80138a79
+                        group_name: roboshop-common
+                    interface_type: interface
+                    ipv6_addresses: []
+                    mac_address: 02:ff:c1:98:98:45
+                    network_interface_id: eni-01dfa0527950021eb
+                    operator:
+                        managed: false
+                    owner_id: '826997323722'
+                    private_dns_name: ip-172-31-10-9.ec2.internal
+                    private_ip_address: 172.31.10.9
+                    private_ip_addresses:
+                    -   association:
+                            ip_owner_id: amazon
+                            public_dns_name: ec2-44-201-12-132.compute-1.amazonaws.com
+                            public_ip: 44.201.12.132
+                        primary: true
+                        private_dns_name: ip-172-31-10-9.ec2.internal
+                        private_ip_address: 172.31.10.9
+                    source_dest_check: true
+                    status: in-use
+                    subnet_id: subnet-0990e18e4d136bbd2
+                    vpc_id: vpc-0c19404b02f922213
+                network_performance_options:
+                    bandwidth_weighting: default
+                operator:
+                    hidden_by_default: false
+                    managed: false
+                placement:
+                    availability_zone: us-east-1a
+                    availability_zone_id: use1-az1
+                    group_name: ''
+                    tenancy: default
+                platform_details: Red Hat Enterprise Linux
+                private_dns_name: ip-172-31-10-9.ec2.internal
+                private_dns_name_options:
+                    enable_resource_name_dns_a_record: false
+                    enable_resource_name_dns_aaaa_record: false
+                    hostname_type: ip-name
+                private_ip_address: 172.31.10.9
+                product_codes: []
+                public_dns_name: ec2-44-201-12-132.compute-1.amazonaws.com
+                public_ip_address: 44.201.12.132
+                root_device_name: /dev/sda1
+                root_device_type: ebs
+                secondary_interfaces: []
+                security_groups:
+                -   group_id: sg-0abab6e20ac8910cf
+                    group_name: roboshop-redis
+                -   group_id: sg-097b1168e80138a79
+                    group_name: roboshop-common
+                source_dest_check: true
+                state:
+                    code: 16
+                    name: running
+                state_transition_reason: ''
+                subnet_id: subnet-0990e18e4d136bbd2
+                tags:
+                    Name: roboshop-redis
+                usage_operation: RunInstances:0010
+                usage_operation_update_time: '2026-11-03T19:39:26+00:00'
+                virtualization_type: hvm
+                vpc_id: vpc-0c19404b02f922213
+            invocation:
+                module_args:
+                    aap_callback: null
+                    access_key: null
+                    availability_zone: null
+                    aws_ca_bundle: /etc/pki/tls/certs/ca-bundle.crt
+                    aws_config: null
+                    count: null
+                    cpu_credit_specification: null
+                    cpu_options: null
+                    debug_botocore_endpoint_logs: false
+                    detailed_monitoring: null
+                    ebs_optimized: null
+                    endpoint_url: null
+                    exact_count: null
+                    filters:
+                        image-id:
+                        - ami-0055977a6e828a4f4
+                        instance-state-name:
+                        - pending
+                        - running
+                        - stopping
+                        - stopped
+                        subnet-id: subnet-0990e18e4d136bbd2
+                        tag:Name:
+                        - roboshop-redis
+                    hibernation_options: false
+                    iam_instance_profile: null
+                    image: null
+                    image_id: ami-0055977a6e828a4f4
+                    instance_ids: []
+                    instance_initiated_shutdown_behavior: null
+                    instance_type: t3.micro
+                    key_name: null
+                    launch_template: null
+                    metadata_options: null
+                    name: roboshop-redis
+                    network: null
+                    placement_group: null
+                    profile: null
+                    purge_tags: true
+                    region: us-east-1
+                    secret_key: null
+                    security_group: null
+                    security_groups:
+                    - roboshop-redis
+                    - roboshop-common
+                    session_token: null
+                    state: present
+                    tags: null
+                    tenancy: null
+                    termination_protection: null
+                    user_data: null
+                    validate_certs: true
+                    volumes: null
+                    vpc_subnet_id: null
+                    wait: true
+                    wait_timeout: 600
+            item: redis
+        -   ansible_loop_var: item
+            changed: false
+            changes: []
+            failed: false
+            instance_ids:
+            - i-05ff74b55992c5b45
+            instances:
+            -   ami_launch_index: 0
+                architecture: x86_64
+                block_device_mappings:
+                -   device_name: /dev/sda1
+                    ebs:
+                        attach_time: '2026-11-03T19:39:31.318000+00:00'
+                        delete_on_termination: true
+                        ebs_card_index: 0
+                        status: attached
+                        volume_id: vol-025b1bed7931cb053
+                boot_mode: uefi-preferred
+                capacity_reservation_specification:
+                    capacity_reservation_preference: open
+                client_token: 0ab450d551ef4a5bb0fb6ccc4ad4ac0c
+                cpu_options:
+                    core_count: 1
+                    threads_per_core: 2
+                current_instance_boot_mode: uefi
+                ebs_optimized: false
+                ena_support: true
+                enclave_options:
+                    enabled: false
+                hibernation_options:
+                    configured: false
+                hypervisor: xen
+                image_id: ami-0055977a6e828a4f4
+                instance_id: i-05ff74b55992c5b45
+                instance_type: t3.micro
+                launch_time: '2026-11-03T19:39:31+00:00'
+                maintenance_options:
+                    auto_recovery: default
+                    reboot_migration: default
+                metadata_options:
+                    http_endpoint: enabled
+                    http_protocol_ipv6: disabled
+                    http_put_response_hop_limit: 1
+                    http_tokens: optional
+                    instance_metadata_tags: disabled
+                    state: applied
+                monitoring:
+                    state: disabled
+                network_interfaces:
+                -   association:
+                        ip_owner_id: amazon
+                        public_dns_name: ec2-3-238-91-28.compute-1.amazonaws.com
+                        public_ip: 3.238.91.28
+                    attachment:
+                        attach_time: '2026-11-03T19:39:31+00:00'
+                        attachment_id: eni-attach-07f5048cdbdc4c51d
+                        delete_on_termination: true
+                        device_index: 0
+                        network_card_index: 0
+                        status: attached
+                    description: ''
+                    groups:
+                    -   group_id: sg-0fcaf75610f1c6862
+                        group_name: roboshop-mysql
+                    -   group_id: sg-097b1168e80138a79
+                        group_name: roboshop-common
+                    interface_type: interface
+                    ipv6_addresses: []
+                    mac_address: 02:ff:ff:cd:90:8b
+                    network_interface_id: eni-0b98b055f77f8d90a
+                    operator:
+                        managed: false
+                    owner_id: '826997323722'
+                    private_dns_name: ip-172-31-13-17.ec2.internal
+                    private_ip_address: 172.31.13.17
+                    private_ip_addresses:
+                    -   association:
+                            ip_owner_id: amazon
+                            public_dns_name: ec2-3-238-91-28.compute-1.amazonaws.com
+                            public_ip: 3.238.91.28
+                        primary: true
+                        private_dns_name: ip-172-31-13-17.ec2.internal
+                        private_ip_address: 172.31.13.17
+                    source_dest_check: true
+                    status: in-use
+                    subnet_id: subnet-0990e18e4d136bbd2
+                    vpc_id: vpc-0c19404b02f922213
+                network_performance_options:
+                    bandwidth_weighting: default
+                operator:
+                    hidden_by_default: false
+                    managed: false
+                placement:
+                    availability_zone: us-east-1a
+                    availability_zone_id: use1-az1
+                    group_name: ''
+                    tenancy: default
+                platform_details: Red Hat Enterprise Linux
+                private_dns_name: ip-172-31-13-17.ec2.internal
+                private_dns_name_options:
+                    enable_resource_name_dns_a_record: false
+                    enable_resource_name_dns_aaaa_record: false
+                    hostname_type: ip-name
+                private_ip_address: 172.31.13.17
+                product_codes: []
+                public_dns_name: ec2-3-238-91-28.compute-1.amazonaws.com
+                public_ip_address: 3.238.91.28
+                root_device_name: /dev/sda1
+                root_device_type: ebs
+                secondary_interfaces: []
+                security_groups:
+                -   group_id: sg-0fcaf75610f1c6862
+                    group_name: roboshop-mysql
+                -   group_id: sg-097b1168e80138a79
+                    group_name: roboshop-common
+                source_dest_check: true
+                state:
+                    code: 16
+                    name: running
+                state_transition_reason: ''
+                subnet_id: subnet-0990e18e4d136bbd2
+                tags:
+                    Name: roboshop-mysql
+                usage_operation: RunInstances:0010
+                usage_operation_update_time: '2026-11-03T19:39:31+00:00'
+                virtualization_type: hvm
+                vpc_id: vpc-0c19404b02f922213
+            invocation:
+                module_args:
+                    aap_callback: null
+                    access_key: null
+                    availability_zone: null
+                    aws_ca_bundle: /etc/pki/tls/certs/ca-bundle.crt
+                    aws_config: null
+                    count: null
+                    cpu_credit_specification: null
+                    cpu_options: null
+                    debug_botocore_endpoint_logs: false
+                    detailed_monitoring: null
+                    ebs_optimized: null
+                    endpoint_url: null
+                    exact_count: null
+                    filters:
+                        image-id:
+                        - ami-0055977a6e828a4f4
+                        instance-state-name:
+                        - pending
+                        - running
+                        - stopping
+                        - stopped
+                        subnet-id: subnet-0990e18e4d136bbd2
+                        tag:Name:
+                        - roboshop-mysql
+                    hibernation_options: false
+                    iam_instance_profile: null
+                    image: null
+                    image_id: ami-0055977a6e828a4f4
+                    instance_ids: []
+                    instance_initiated_shutdown_behavior: null
+                    instance_type: t3.micro
+                    key_name: null
+                    launch_template: null
+                    metadata_options: null
+                    name: roboshop-mysql
+                    network: null
+                    placement_group: null
+                    profile: null
+                    purge_tags: true
+                    region: us-east-1
+                    secret_key: null
+                    security_group: null
+                    security_groups:
+                    - roboshop-mysql
+                    - roboshop-common
+                    session_token: null
+                    state: present
+                    tags: null
+                    tenancy: null
+                    termination_protection: null
+                    user_data: null
+                    validate_certs: true
+                    volumes: null
+                    vpc_subnet_id: null
+                    wait: true
+                    wait_timeout: 600
+            item: mysql
+        -   ansible_loop_var: item
+            changed: false
+            changes: []
+            failed: false
+            instance_ids:
+            - i-05b0f300b042ff545
+            instances:
+            -   ami_launch_index: 0
+                architecture: x86_64
+                block_device_mappings:
+                -   device_name: /dev/sda1
+                    ebs:
+                        attach_time: '2026-11-03T19:39:35.772000+00:00'
+                        delete_on_termination: true
+                        ebs_card_index: 0
+                        status: attached
+                        volume_id: vol-03bb16666c12d725a
+                boot_mode: uefi-preferred
+                capacity_reservation_specification:
+                    capacity_reservation_preference: open
+                client_token: 561903243b8f4b4a8b3d31a17b4ed4e3
+                cpu_options:
+                    core_count: 1
+                    threads_per_core: 2
+                current_instance_boot_mode: uefi
+                ebs_optimized: false
+                ena_support: true
+                enclave_options:
+                    enabled: false
+                hibernation_options:
+                    configured: false
+                hypervisor: xen
+                image_id: ami-0055977a6e828a4f4
+                instance_id: i-05b0f300b042ff545
+                instance_type: t3.micro
+                launch_time: '2026-11-03T19:39:35+00:00'
+                maintenance_options:
+                    auto_recovery: default
+                    reboot_migration: default
+                metadata_options:
+                    http_endpoint: enabled
+                    http_protocol_ipv6: disabled
+                    http_put_response_hop_limit: 1
+                    http_tokens: optional
+                    instance_metadata_tags: disabled
+                    state: applied
+                monitoring:
+                    state: disabled
+                network_interfaces:
+                -   association:
+                        ip_owner_id: amazon
+                        public_dns_name: ec2-32-200-105-236.compute-1.amazonaws.com
+                        public_ip: 32.200.105.236
+                    attachment:
+                        attach_time: '2026-11-03T19:39:35+00:00'
+                        attachment_id: eni-attach-0220436383aa31ebb
+                        delete_on_termination: true
+                        device_index: 0
+                        network_card_index: 0
+                        status: attached
+                    description: ''
+                    groups:
+                    -   group_id: sg-095ce1623dd088d5b
+                        group_name: roboshop-rabbitmq
+                    -   group_id: sg-097b1168e80138a79
+                        group_name: roboshop-common
+                    interface_type: interface
+                    ipv6_addresses: []
+                    mac_address: 02:ff:d9:11:78:61
+                    network_interface_id: eni-070af57557883f3be
+                    operator:
+                        managed: false
+                    owner_id: '826997323722'
+                    private_dns_name: ip-172-31-9-128.ec2.internal
+                    private_ip_address: 172.31.9.128
+                    private_ip_addresses:
+                    -   association:
+                            ip_owner_id: amazon
+                            public_dns_name: ec2-32-200-105-236.compute-1.amazonaws.com
+                            public_ip: 32.200.105.236
+                        primary: true
+                        private_dns_name: ip-172-31-9-128.ec2.internal
+                        private_ip_address: 172.31.9.128
+                    source_dest_check: true
+                    status: in-use
+                    subnet_id: subnet-0990e18e4d136bbd2
+                    vpc_id: vpc-0c19404b02f922213
+                network_performance_options:
+                    bandwidth_weighting: default
+                operator:
+                    hidden_by_default: false
+                    managed: false
+                placement:
+                    availability_zone: us-east-1a
+                    availability_zone_id: use1-az1
+                    group_name: ''
+                    tenancy: default
+                platform_details: Red Hat Enterprise Linux
+                private_dns_name: ip-172-31-9-128.ec2.internal
+                private_dns_name_options:
+                    enable_resource_name_dns_a_record: false
+                    enable_resource_name_dns_aaaa_record: false
+                    hostname_type: ip-name
+                private_ip_address: 172.31.9.128
+                product_codes: []
+                public_dns_name: ec2-32-200-105-236.compute-1.amazonaws.com
+                public_ip_address: 32.200.105.236
+                root_device_name: /dev/sda1
+                root_device_type: ebs
+                secondary_interfaces: []
+                security_groups:
+                -   group_id: sg-095ce1623dd088d5b
+                    group_name: roboshop-rabbitmq
+                -   group_id: sg-097b1168e80138a79
+                    group_name: roboshop-common
+                source_dest_check: true
+                state:
+                    code: 16
+                    name: running
+                state_transition_reason: ''
+                subnet_id: subnet-0990e18e4d136bbd2
+                tags:
+                    Name: roboshop-rabbitmq
+                usage_operation: RunInstances:0010
+                usage_operation_update_time: '2026-11-03T19:39:35+00:00'
+                virtualization_type: hvm
+                vpc_id: vpc-0c19404b02f922213
+            invocation:
+                module_args:
+                    aap_callback: null
+                    access_key: null
+                    availability_zone: null
+                    aws_ca_bundle: /etc/pki/tls/certs/ca-bundle.crt
+                    aws_config: null
+                    count: null
+                    cpu_credit_specification: null
+                    cpu_options: null
+                    debug_botocore_endpoint_logs: false
+                    detailed_monitoring: null
+                    ebs_optimized: null
+                    endpoint_url: null
+                    exact_count: null
+                    filters:
+                        image-id:
+                        - ami-0055977a6e828a4f4
+                        instance-state-name:
+                        - pending
+                        - running
+                        - stopping
+                        - stopped
+                        subnet-id: subnet-0990e18e4d136bbd2
+                        tag:Name:
+                        - roboshop-rabbitmq
+                    hibernation_options: false
+                    iam_instance_profile: null
+                    image: null
+                    image_id: ami-0055977a6e828a4f4
+                    instance_ids: []
+                    instance_initiated_shutdown_behavior: null
+                    instance_type: t3.micro
+                    key_name: null
+                    launch_template: null
+                    metadata_options: null
+                    name: roboshop-rabbitmq
+                    network: null
+                    placement_group: null
+                    profile: null
+                    purge_tags: true
+                    region: us-east-1
+                    secret_key: null
+                    security_group: null
+                    security_groups:
+                    - roboshop-rabbitmq
+                    - roboshop-common
+                    session_token: null
+                    state: present
+                    tags: null
+                    tenancy: null
+                    termination_protection: null
+                    user_data: null
+                    validate_certs: true
+                    volumes: null
+                    vpc_subnet_id: null
+                    wait: true
+                    wait_timeout: 600
+            item: rabbitmq
