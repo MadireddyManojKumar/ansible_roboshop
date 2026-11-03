@@ -5,7 +5,7 @@
     ami_id: ami-0055977a6e828a4f4
     instance_type: t3.micro
     instances: ["mongodb", "redis", "mysql", "rabbitmq"]
-    domain_name: daws.manojkumar.blog
+    domain_name: manojkumar.blog
     action: create
   tasks:
     - name: create ec2 instances
@@ -21,10 +21,23 @@
       when: action == "create"
       register: ec2_instance_creation_output
     
-    - name: ec2 instance creation output
-      debug:  
-        msg: "{{ec2_instance_creation_output}}"
+#    - name: ec2 instance creation output
+#     debug:  
+#        msg: "{{ec2_instance_creation_output}}"
 
+    - name: "route53 record creation for ec2 instances"
+      amazon.aws.route53:
+        state: present
+        zone: "{{ domain_name }}"
+        record: "{{item}}.{{ domain_name }}"
+        type: A
+        ttl: 1
+        value: "{{ item.instances[0].private_ip_address }}"
+        overwrite: yes
+      loop: "{{ec2_instance_creation_output}}"
+      when: action == "create"
+
+      
         
 
 
