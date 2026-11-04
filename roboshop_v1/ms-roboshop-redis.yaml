@@ -1,29 +1,30 @@
-- name: configure redis server
+# Ansible script to setup redis for Roboshop application
+
+- name: "Setup Redis for Roboshop application"
   hosts: redis
-  become: yes
+  become: true
   tasks:
-  - name: enable redis 7
-    command: dnf module enable redis:7 -y
-  
-  - name: install redis
-    package:
-      name: redis
-      state: present
+    - name: disable redis default version
+      command: dnf module disable redis -y
+      
+    
+    - name: Enable redis 7.0 module
+      command: dnf module enable redis:7 -y
+      
 
-  - name: allow remote connections
-    replace:
-      path: /etc/redis/redis.conf
-      regexp: '127.0.0.1'
-      replace: '0.0.0.0'
+    - name: Install redis 7.0
+      package:
+        name: redis
+        state: present
 
-  - name: disable protected mode
-    lineinfile:
-      path: /etc/redis/redis.conf
-      regexp: '^#?protected-mode yes'
-      line: 'protected-mode no'
+    - name:  configure redis to listen on all interfaces
+      replace:
+        path: /etc/redis/redis.conf
+        regexp: '127.0.0.1'
+        replace: '0.0.0.0'
 
-  - name: enable and start redis
-    service:
-      name: redis
-      state: restarted
-      enabled: yes
+    - name: change redis protected mode to no
+      replace:
+        path: /etc/redis/redis.conf
+        regexp: 'protected-mode yes'
+        replace: 'protected-mode no' 
