@@ -6,13 +6,11 @@
   tasks:
     - name: disable redis default version
       command: dnf module disable redis -y
-      debug:
-        msg: "Disabled redis default version"
+      
     
     - name: Enable redis 7.0 module
       command: dnf module enable redis:7.0 -y
-      debug:
-        msg: "Enabled redis 7.0 module"
+      
 
     - name: Install redis 7.0
       package:
