@@ -1,4 +1,4 @@
-# Ansible script ti install and configure RabbitMQ for Roboshop application- name: configure rabbitmq server
+- name: configure rabbitmq server
   hosts: rabbitmq
   become: yes
   tasks:
