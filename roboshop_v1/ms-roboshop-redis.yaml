@@ -32,9 +32,9 @@
     - name: enable and start redis service
       ansible.builtin.service:
         name: redis
-        enabled: true
-        state: started
-    
+        state: restarted
+        enabled: yes
+           
     - name: "Check redis service status"
       command: systemctl status redis
       register: result
