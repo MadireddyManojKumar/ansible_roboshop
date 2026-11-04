@@ -20,7 +20,7 @@
     - name:  configure redis to listen on all interfaces
       replace:
         path: /etc/redis/redis.conf
-        regexp: '27.0.0.1'
+        regexp: '127.0.0.1'
         replace: '0.0.0.0'
 
     - name: change redis protected mode to no
@@ -34,7 +34,7 @@
         name: redis
         state: restarted
         enabled: yes
-           
+
     - name: "Check redis service status"
       command: systemctl status redis
       register: result
