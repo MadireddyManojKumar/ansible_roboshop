@@ -1,63 +1,29 @@
-# Ansible script to setup redis for Roboshop application
-
-- name: "Setup Redis for Roboshop application"
+- name: configure redis server
   hosts: redis
-  become: true
+  become: yes
   tasks:
-    - name: disable redis default version
-      command: dnf module disable redis -y
-      
-    
-    - name: Enable redis 7.0 module
-      command: dnf module enable redis:7 -y
-      
+  - name: enable redis 7
+    command: dnf module enable redis:7 -y
+  
+  - name: install redis
+    package:
+      name: redis
+      state: present
 
-    - name: Install redis 7.0
-      package:
-        name: redis
-        state: present
+  - name: allow remote connections
+    replace:
+      path: /etc/redis/redis.conf
+      regexp: '127.0.0.1'
+      replace: '0.0.0.0'
 
-    - name:  configure redis to listen on all interfaces
-      replace:
-        path: /etc/redis/redis.conf
-        regexp: '127.0.0.1'
-        replace: '0.0.0.0'
+  - name: disable protected mode
+    lineinfile:
+      path: /etc/redis/redis.conf
+      regexp: '^#?protected-mode yes'
+      line: 'protected-mode no'
 
-    - name: change redis protected mode to no
-      replace:
-        path: /etc/redis/redis.conf
-        regexp: 'protected-mode yes'
-        replace: 'protected-mode no' 
-
-    - name: enable and start redis service
-      ansible.builtin.service:
-        name: redis
-        state: restarted
-        enabled: yes
-
-    - name: "Check redis service status"
-      command: systemctl status redis
-      register: result
-      ignore_errors: true
-
-    - name: "Print redis service status"
-      debug:
-        var: result.stdout_lines
-
-
-    - name: verify redis listening port
-      command: netstat -tulnp | grep 6379
-      register: redis_port_status
-
-    - name: display redis listening port status
-      debug:
-        var: redis_port_status.stdout
-
-    -
-    - name: Ping test on redis service
-      ansible.builtin.ping:
-        data: Ping
-
-    - name: success message
-      debug:
-        msg: "Redis deployment completed successfully."
+  - name: enable and start redis
+    service:
+      name: redis
+      state: restarted
+      enabled: yes
