@@ -25,6 +25,7 @@
 
     - name: change redis protected mode to no
       replace:
+      path: /etc/redis/redis.conf
         regexp: 'protected-mode yes'
         replace: 'protected-mode no' 
 
