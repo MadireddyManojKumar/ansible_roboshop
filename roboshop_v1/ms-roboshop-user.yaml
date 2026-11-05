@@ -3,8 +3,9 @@
   become: yes
   vars:
     user_app_user: roboshop
-    mysql_host: mysql-manojkumar.blog
-    mongo_host: mongodb-manojkumar.blog
+    mysql_host: mysql.manojkumar.blog
+    mongo_host: mongodb.manojkumar.blog
+    redis_host: redis.manojkumar.blog
   tasks:
   - name: disable default nodejs
     command: dnf module disable nodejs -y

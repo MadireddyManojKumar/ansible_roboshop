@@ -3,10 +3,10 @@
   become: yes
   vars: 
     cart_app_user: roboshop
-    mysql_host: mysql-manojkumar.blog
-    mongo_host: mongodb-manojkumar.blog
-    cart_host: cart-manojkumar.blog
-    catalogue_host: catalogue-manojkumar.blog
+    mysql_host: mysql.manojkumar.blog
+    mongo_host: mongodb.manojkumar.blog
+    cart_host: cart.manojkumar.blog
+    catalogue_host: catalogue.manojkumar.blog
   tasks:
   - name: disable default nodejs
     command: dnf module disable nodejs -y
@@ -60,7 +60,7 @@
 
     
   - name: install nodejs dependencies
-    command: npm install
+    command: chdir=/app npm install
 
   - name: update systemd service file
     template:
