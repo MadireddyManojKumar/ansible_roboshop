@@ -41,6 +41,10 @@
       path: /app
       state: absent
 
+  - name: remove cart.zip
+    file:
+      path: /tmp/cart.zip
+      state: absent
 
   - name: create application directory
     file:
@@ -60,21 +64,22 @@
 
     
   - name: install nodejs dependencies
-    command: chdir=/app npm install
+    community.general.npm:
+      path: /app
 
   - name: update systemd service file
     template:
       src: cart.service.j2
       dest: /etc/systemd/system/cart.service
 
-  - name: reload systemd
+  - name: reload deamon
     systemd_service:
-      daemon_reload: yes
+      daemon_reload: true
 
   - name: start cart service
-    ansible.builtin.service:
+    service:
       name: cart
-      state: started
+      state: restarted
       enabled: yes
 
 
