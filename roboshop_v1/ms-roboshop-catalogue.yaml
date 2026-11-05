@@ -3,7 +3,7 @@
   become: yes
   vars:
     catalogue_app_user: roboshop
-    mongo_host: mongodb-manojkumar.blog
+    mongo_host: mongodb.manojkumar.blog
   tasks:
   - name: disable default nodejs
     command: dnf module disable nodejs -y
@@ -85,6 +85,7 @@
   - name: print product_count
     debug:
       msg: "{{ product_count }}"
+
 
   - name:  load schema for catalogue microservice
     command: "mongo --host {{ mongo_host }} </app/db/master-data.js"
