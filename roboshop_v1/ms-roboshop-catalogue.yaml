@@ -1,0 +1,111 @@
+- name : configure catalogue microservice
+  hosts: catalogue
+  become: yes
+  vars:
+    catalogue_app_user: roboshop
+    mongo_host: mongodb-manojkumar.blog
+  tasks:
+  - name: disable default nodejs
+    command: dnf module disable nodejs -y
+
+  - name: enable nodejs version 24
+    command: dnf module enable nodejs:24 -y
+
+  - name: install nodejs
+    package:
+      name: nodejs
+      state: present
+  
+  - name: verify nodejs version
+    command: node -v
+    register: nodejs_version
+
+  - name: print nodejs version
+    debug:
+      msg: "Nodejs version is {{ nodejs_version.stdout }}"
+
+  - name: create roboshop user
+    user:
+      name: roboshop
+      create_home: no
+      system: yes
+      home: /app
+      comment: "roboshop system user"
+      shell: /sbin/nologin
+
+
+  - name: remove default application directory
+    file:
+      path: /app
+      state: absent
+
+  - name: create application directory
+    file:
+      path: /app
+      state: directory
+  
+  - name: download catalogue microservice
+    get_url:
+      url: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/catalogue-v4.zip
+      dest: /tmp/catalogue.zip
+      
+
+  - name: unzip catalogue microservice
+    unarchive:
+      src: /tmp/catalogue.zip
+      dest: /app
+      remote_src: yes
+  
+  - name: change directory to /app
+    command: chdir=/app 
+
+  - name: install nodejs dependencies
+    community.general.npm:
+      path: /app
+
+  - name: copy systemd service file
+    template:
+      src: catalogue.service.j2
+      dest: /etc/systemd/system/catalogue.service
+
+  - name: copy mongo repo to destination folder
+    copy:
+      src: mongo.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+
+  - name: install mongodb client
+    package:
+      name: mongodb-mongosh
+      state: present
+
+  - name: check products loaded in mongodb
+    command: mongosh --host "{{ mongodb_host }}" --quiet --eval 'db.getSiblingDB("catalogue").products.countDocuments()'
+    register: products_count
+
+  - name: print product_count
+    debug:
+      msg: "{{ product_count }}"
+
+  - name:  load schema for catalogue microservice
+    command: "mongo --host {{ mongodb_host }} </app/db/master-data.js"
+    when: products_count.stdout|int == 0
+    
+  - name: demon reload systemd
+    systemd_service:
+      daemon_reload: true
+
+  - name: Ensure the application is enabled and running
+    ansible.builtin.service:
+      name: catalogue
+      state: started
+      enabled: true
+
+  
+
+ 
+
+
+
+  
+  
