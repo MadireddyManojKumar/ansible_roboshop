@@ -55,8 +55,6 @@
       dest: /app
       remote_src: yes
 
-  - name: change directory to /app
-    command: chdir=/app
 
   - name: install nodejs dependencies
     community.general.npm:

@@ -58,11 +58,9 @@
       dest: /app
       remote_src: yes
 
-  - name: change directory to /app
-    command: chdir=/app
     
   - name: install nodejs dependencies
-    command: chdir=/app npm install
+    command: npm install
 
   - name: update systemd service file
     template:
