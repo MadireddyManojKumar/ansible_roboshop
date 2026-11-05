@@ -84,12 +84,12 @@
 
   - name: print product_count
     debug:
-      msg: "{{ product_count }}"
+      msg: "{{ products_count }}"
 
 
   - name:  load schema for catalogue microservice
     command: "mongo --host {{ mongo_host }} </app/db/master-data.js"
-    when: product_count.stdout|int == 0
+    when: products_count.stdout|int == 0
     
   - name: demon reload systemd
     systemd_service:
