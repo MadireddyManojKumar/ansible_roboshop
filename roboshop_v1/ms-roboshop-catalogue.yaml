@@ -79,7 +79,7 @@
       state: present
 
   - name: check products loaded in mongodb
-    command: mongosh --host "{{ mongodb_host }}" --quiet --eval 'db.getSiblingDB("catalogue").products.countDocuments()'
+    command: mongosh --host "{{ mongo_host }}" --quiet --eval 'db.getSiblingDB("catalogue").products.countDocuments()'
     register: products_count
 
   - name: print product_count
@@ -87,7 +87,7 @@
       msg: "{{ product_count }}"
 
   - name:  load schema for catalogue microservice
-    command: "mongo --host {{ mongodb_host }} </app/db/master-data.js"
+    command: "mongo --host {{ mongo_host }} </app/db/master-data.js"
     when: products_count.stdout|int == 0
     
   - name: demon reload systemd
