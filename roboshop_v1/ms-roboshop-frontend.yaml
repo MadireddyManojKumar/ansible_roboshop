@@ -10,7 +10,7 @@
 
   tasks:
   - name: disable nginx default version
-    caommand: dnf module disable nginx -y
+    command: dnf module disable nginx -y
 
   - name: enable nginx 1.26 version
     command: dnf module enable nginx:1.26 -y
