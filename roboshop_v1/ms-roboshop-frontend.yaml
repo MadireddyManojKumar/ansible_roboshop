@@ -38,7 +38,7 @@
       state: absent
     loop: "{{ directory_contents.files }}"
 
-  - name: download the source code:
+  - name: download the source code
     get_url:
       url: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/frontend-v4.zip
       dest: /tmp/frontend.zip
