@@ -119,7 +119,7 @@
         dest: /etc/systemd/system/shipping.service
 
     - name: Demon reload
-      systemd-service:
+      systemd_service:
         daemon_reload: true
 
 
