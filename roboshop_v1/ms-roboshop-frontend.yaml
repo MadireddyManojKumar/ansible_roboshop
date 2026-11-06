@@ -1,0 +1,58 @@
+- name: FDeploying frontend application using ansible script
+  hosts: frontend
+  become: yes
+  vars:
+    cart_host: cart.manojkumar.blog
+    catalogue_host: catalogue.manojkumar.blog
+    shipping_host: shipping.manojkumar.blog
+    user_host: user.manojkumar.blog
+    payment_host: payment.manojkumar.blog
+
+  tasks:
+  - name: disable nginx default version
+    caommand: dnf module disable nginx -y
+
+  - name: enable nginx 1.26 version
+    command: dnf module enable nginx:1.26 -y
+
+  - name: install nginx 1.26 version
+    package:
+      name: nginx
+      state: present
+
+  - name: enable and start nginx service
+    service:
+      name: nginx
+      status: started
+      enabled: true
+
+  - name: remove default html pages
+    file:
+      src: /usr/share/nginx/html/*
+      state: absent
+
+  - name: remove app directory if present
+    file:
+      src: /app
+      state: absent
+
+  - name: remove zip file if present
+    file:
+      src: /tmp/frontend.zip
+      state: absent
+
+  - name: create app directory
+    file:
+      src: /app
+      state: present
+
+  - name: download the source code:
+    get_url:
+      src: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/frontend-v4.zip
+      dest: /tmp/frontend.zip
+
+
+  - name: unzip the source code
+    unarchive:
+      src: /tmp/frontend.zip
+      dest: /usr/share/nginx/html
