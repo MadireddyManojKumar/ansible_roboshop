@@ -1,0 +1,73 @@
+- name: dispatch microservice deployment script using ansoble
+  hosts: dispatch
+  become: yes
+  vars:
+    rabbitmq_host: rabbitmq.manojkumar.blog
+  taske:
+  - name: install go lang
+    package:
+      name: golang
+      state: present
+  
+  - name: golang version
+    command: go version
+    register: go_version
+
+  - name: print go version
+    debug:
+      msg: "{{go_version}}"
+
+  - name: create go system user
+    user:
+      name: roboshop
+      home: /app
+      system : true
+      shell: /sbin/nologin
+      comment: "roboshop system user"
+      create_home: no
+
+  - name: remove app directory if exist
+    file:
+      path: /app
+      state: absent
+
+  - name: remove zip file if exist
+    file:
+      path: /tmp/dispatch.zip
+      state: absent
+
+
+  - name: add application home directory
+    file:
+      path: /app
+      state: present
+
+  - name: doenlosd source code
+    get_url:
+      src: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/dispatch-v4.zip
+      dest: /tmp/dispatch.zip
+
+
+  - name: unarchive source code to app directory
+    unarchive:
+      src: /tmp/dispatch.zip
+      dest: /app
+      remote_src: yes
+
+  - name: build dispatch project
+    command: go build -o dispatch 
+
+  - name: 
+    template:
+      src: dispatch.service.j2
+      dest: /etc/systemd/system/dispatch.service
+
+  - name: deamon reload
+    syatemd_service:
+      deamon_reload: true
+
+  - name: start service\
+    service:
+      name: dispatch
+      state: restarted
+      enabled: true

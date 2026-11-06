@@ -1,0 +1,140 @@
+- name: ShipmentMicroservice deployment script using ansible
+  hosts: shipping
+  become: true
+  vars:
+    shipping_app_user: roboshop
+    mysql_host: mysql.manojkumar.blog
+    cart_host: cart.manojkumar.blog
+    mysql_password : "{{ mysql_root_password }}"
+  tasks:
+    - name: enable maven version 3.9
+      command: dnf module enable maven:3.9 -y
+
+    - name: install maven and java
+      package:
+        name: "{{item}}"
+        state: present
+      loop:
+        - maven
+        - java-25-openjdk-devel
+        - maven-openjdk25 # This package will set the java_home variable automatically for maven to work with java 25.
+        - mysql
+
+    - name: verify maven version
+      command: mvn -v
+      register: maven_version
+
+    - name: print maven version
+      debug:
+        msg: "Maven version is {{ maven_version.stdout }}"
+
+    - name: verify java version
+      command: java -version
+      register: java_version
+
+    - name: print java version
+      debug:
+        msg: "Java version is {{ java_version.stdout }}"
+
+    - name: set system user for shipping microservice
+      user:
+        name: roboshop
+        create_home: no
+        system: yes
+        home: /app
+        comment: "roboshop system user"
+        shell: /sbin/nologin
+
+    - name: remove default application directory
+      file:
+        path: /app
+        state: absent
+
+    - name: remove shipping.zip
+      file:
+        path: /tmp/shipping.zip
+        state: absent
+
+    - name: create application directory
+      file:
+        path: /app
+        state: directory
+
+    - name: download shipping microservice
+      get_url:
+        url: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/shipping-v4.zip
+        dest: /tmp/shipping.zip
+
+
+    - name: unzip shipping microservice
+      unarchive:
+        src: /tmp/shipping.zip
+        dest: /app
+        remote_src: yes
+
+    - name: maven version with out java_home
+      command: mvn -v
+      args:
+        chdir: /app
+      register: maven_default
+    
+    - name: print maven version with out java_home
+      debug:
+        msg: "Maven version is {{ maven_default.stdout }}"
+
+    - name: maven clean install shipping microservice
+      command: mvn clean package
+      args:
+        chdir: /app
+     
+
+    - name: move shipping jar file
+      command: mv target/shipping.jar shipping.jar
+      args:
+        chdir: /app
+
+    - name: check cities data exist or not
+      command: mysql -h "{{ mysql_host }}" -u root -p{{ mysql_password }} -N -B -e "SELECT COUNT(*) FROM cities.cities;"
+      register: cities_count
+      ignore_errors: true
+      tags:
+      - mysql
+
+    - name: print cities_count
+      debug:
+        msg: "{{ cities_count }}"
+      tags:
+      - mysql
+
+    - name: load cities data into mysql
+      shell: mysql -h "{{ mysql_host }}" -u root -p{{ mysql_password }} < /app/db/master-data.sql
+      when: cities_count.rc != 0 or cities_count.stdout | int == 0
+      tags:
+      - mysql
+
+
+    - name: configure systemD service
+      template: 
+        src: shippingservice.j2
+        dest: /etc/systemd/system/shipping.service
+
+    - name: Demon reload
+      systemd-service:
+        deamon_reload: yes
+
+    - name: enable and start shipping service
+      service:
+        name: shipping
+        state: restarted
+        enabled: yes
+
+    
+        
+
+    
+
+    
+
+
+    
+      
