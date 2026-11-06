@@ -54,7 +54,7 @@
 
     - name: install dependencies in virtual environment
       ansible.builtin.pip:
-        requirements: /app/rquirements.txt
+        requirements: /app/requirements.txt
         virtualenv: /app/.venv
         virtualenv_command: python3.14 -m venv
 
