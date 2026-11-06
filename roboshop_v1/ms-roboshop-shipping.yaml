@@ -17,8 +17,24 @@
       loop:
         - maven
         - java-25-openjdk-devel
-        - maven-openjdk25 # This package will set the java_home variable automatically for maven to work with java 25.
         - mysql
+
+    - name: find java25 path
+      shell: readlink -f $(ls /usr/lib/jvm/java-25-openjdk*/bin/java | head -1)
+      register: java25
+
+    - name: print the output
+      debug:
+        msg: "{{ java25 }}"
+
+    - name: make java25 as default
+      command: alternatives --set java {{ java25.stdout }}
+
+    - name: set JAVA_HOME
+      copy:
+        content: "export JAVA_HOME={{ java25.stdout | dirname | dirname  }}"
+        dest: /etc/profile.d/java.sh
+    
 
     - name: verify maven version
       command: mvn -v
@@ -121,8 +137,6 @@
     - name: Demon reload
       systemd_service:
         daemon_reload: true
-
-
 
     - name: enable and start shipping service
       service:
