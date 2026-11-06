@@ -41,7 +41,7 @@
 
     - name: download source code
       get_url:
-        src: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/payment-v4.zip
+        url: https://raw.githubusercontent.com/daws-92s/roboshop-documentation/refs/heads/main/artifacts/payment-v4.zip
         dest: /tmp/payment.zip
 
    
