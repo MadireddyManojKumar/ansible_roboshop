@@ -20,31 +20,23 @@
       name: nginx
       state: present
 
-  - name: enable and start nginx service
-    service:
-      name: nginx
-      status: started
-      enabled: true
+    - name: Find all contents inside the directory
+    ansible.builtin.find:
+      paths: /usr/share/nginx/html/
+      recurse: true
+      hidden: true
+      file_type: any
+    register: directory_contents
 
-  - name: remove default html pages
-    file:
-      src: /usr/share/nginx/html/*
+  - name: print directory content
+    debug:
+      msg: "{{ directory_contents }}"
+
+  - name: Delete the discovered contents
+    ansible.builtin.file:
+      path: "{{ item.path }}"
       state: absent
-
-  - name: remove app directory if present
-    file:
-      src: /app
-      state: absent
-
-  - name: remove zip file if present
-    file:
-      src: /tmp/frontend.zip
-      state: absent
-
-  - name: create app directory
-    file:
-      path: /app
-      state: directory
+    loop: "{{ directory_contents.files }}"
 
   - name: download the source code:
     get_url:
@@ -52,7 +44,18 @@
       dest: /tmp/frontend.zip
 
 
-  - name: unzip the source code
+  - name: unzip frontend
     unarchive:
       src: /tmp/frontend.zip
-      dest: /usr/share/nginx/html
+      dest: /usr/share/nginx/html/
+      remote_src: yes
+
+  - name: copy roboshop config
+    template:
+      src: roboshop.conf.j2
+      dest: /etc/nginx/default.d/roboshop.conf
+   
+  - name: restart frontend
+    service:
+      name: nginx
+      state: restarted
