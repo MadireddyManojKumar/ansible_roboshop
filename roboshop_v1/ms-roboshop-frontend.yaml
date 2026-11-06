@@ -43,8 +43,8 @@
 
   - name: create app directory
     file:
-      src: /app
-      state: present
+      path: /app
+      state: directory
 
   - name: download the source code:
     get_url:

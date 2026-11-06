@@ -36,7 +36,8 @@
     - name: create app directory
       file:
         path: /app
-        directory: yes
+        state: directory
+
 
     - name: download source code
       get_url:
