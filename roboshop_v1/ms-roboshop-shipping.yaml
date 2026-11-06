@@ -115,7 +115,7 @@
 
     - name: configure systemD service
       template: 
-        src: shippingservice.j2
+        src: shipping.service.j2
         dest: /etc/systemd/system/shipping.service
 
     - name: Demon reload
