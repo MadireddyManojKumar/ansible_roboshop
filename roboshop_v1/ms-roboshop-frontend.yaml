@@ -20,7 +20,7 @@
       name: nginx
       state: present
 
-    - name: Find all contents inside the directory
+  - name: Find all contents inside the directory
     ansible.builtin.find:
       paths: /usr/share/nginx/html/
       recurse: true
